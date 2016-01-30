@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.40629.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MathPlainCPlusPlus", "MathPlainCPlusPlus\MathPlainCPlusPlus.vcxproj", "{A773A3F2-EC85-4E7F-8F7F-48BCADE1D161}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Client", "Client\Client.vcxproj", "{91F34F13-D3F3-4757-9D4B-0A6A188CCF0D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A773A3F2-EC85-4E7F-8F7F-48BCADE1D161}.Debug|Win32.ActiveCfg = Debug|Win32
+		{A773A3F2-EC85-4E7F-8F7F-48BCADE1D161}.Debug|Win32.Build.0 = Debug|Win32
+		{A773A3F2-EC85-4E7F-8F7F-48BCADE1D161}.Release|Win32.ActiveCfg = Release|Win32
+		{A773A3F2-EC85-4E7F-8F7F-48BCADE1D161}.Release|Win32.Build.0 = Release|Win32
+		{91F34F13-D3F3-4757-9D4B-0A6A188CCF0D}.Debug|Win32.ActiveCfg = Debug|Win32
+		{91F34F13-D3F3-4757-9D4B-0A6A188CCF0D}.Debug|Win32.Build.0 = Debug|Win32
+		{91F34F13-D3F3-4757-9D4B-0A6A188CCF0D}.Release|Win32.ActiveCfg = Release|Win32
+		{91F34F13-D3F3-4757-9D4B-0A6A188CCF0D}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
