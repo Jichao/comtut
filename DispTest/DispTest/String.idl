@@ -1,0 +1,31 @@
+import "oaidl.idl";
+import "ocidl.idl";
+
+[
+	uuid(A3A558F8-EDAA-487A-8E83-CDBFC4069165),
+	dual,
+	oleautomation,
+	object,
+	pointer_default(unique)
+]
+interface IString : IDispatch {
+	[helpstring("concat string")]
+	[id(1)]HRESULT Concat([in]BSTR str1, [in]BSTR str2, [out, retval]BSTR* result);
+};
+[
+	uuid(5F9712C3-1179-4A8A-B1A0-8B9E394A5FFF),
+	version(1.0),
+	helpstring("string manipulation typelib"),
+]
+library StringLib {
+	importlib("stdole32.tlb");
+	importlib("stdole2.tlb");
+	[
+		uuid(B1D59117-CC63-483B-9A19-240A5A19ED67),
+		helpstring("String object")
+	]
+	coclass StringObj {
+		[default] interface IString;
+	};
+}
+
