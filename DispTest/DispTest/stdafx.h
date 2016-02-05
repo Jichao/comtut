@@ -15,5 +15,6 @@
 
 // TODO: reference additional headers your program requires here
 #include <OleAuto.h>
+#include <tchar.h>
 #include <strsafe.h>
 #include <Shlwapi.h>

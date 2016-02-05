@@ -86,6 +86,7 @@
     <ClInclude Include="StringObj.h" />
     <ClInclude Include="StringObjFactory.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="trace.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DispTest.cpp" />
@@ -103,6 +104,7 @@
     </ClCompile>
     <ClCompile Include="StringObj.cpp" />
     <ClCompile Include="StringObjFactory.cpp" />
+    <ClCompile Include="Trace.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Midl Include="String.idl">
