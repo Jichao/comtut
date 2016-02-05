@@ -4,7 +4,7 @@
 
 
  /* File created by MIDL compiler version 8.00.0603 */
-/* at Fri Feb 05 02:46:45 2016
+/* at Fri Feb 05 15:42:40 2016
  */
 /* Compiler settings for String.idl:
     Oicf, W1, Zp8, env=Win32 (32b run), target_arch=X86 8.00.0603 

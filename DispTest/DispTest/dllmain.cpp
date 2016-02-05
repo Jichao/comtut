@@ -37,7 +37,6 @@ BOOL APIENTRY DllMain(HMODULE hModule,
 }
 
 STDAPI  DllGetClassObject(_In_ REFCLSID rclsid, _In_ REFIID riid, _Outptr_ LPVOID FAR* ppv) {
-	MessageBox(NULL, NULL, NULL, NULL);
 	if (rclsid != CLSID_StringObj) {
 		return E_NOINTERFACE;
 	}
@@ -67,9 +66,33 @@ STDAPI DllRegisterServer(void) {
 		L"ThreadingModel", L"Apartment");
 	if (!ret)
 		return E_FAIL;
-	//register typelib
-	auto hr = RegisterTypeLib(NULL, path, NULL);
-	return S_OK;
+	//register the typelib
+	HRSRC hrsrc = FindResource(g_hMod, MAKEINTRESOURCE(1), L"TYPELIB");
+	if (!hrsrc)
+		return E_FAIL;
+	HGLOBAL hGlobal = LoadResource(g_hMod, hrsrc);
+	if (!hGlobal)
+		return E_FAIL;
+	auto size = SizeofResource(g_hMod, hrsrc);
+	WCHAR tempDir[MAX_PATH];
+	GetTempPath(MAX_PATH, tempDir);
+	WCHAR tempFile[MAX_PATH];
+	GetTempFileName(tempDir, L"keke", 0, tempFile);
+	HANDLE hFile = CreateFile(tempFile, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_TEMPORARY, NULL);
+	if (hFile == INVALID_HANDLE_VALUE)
+		return E_FAIL;
+	DWORD byteCount;
+	if (!WriteFile(hFile, hGlobal, size, &byteCount, NULL) || byteCount != size)
+		return E_FAIL;
+	if (!CloseHandle(hFile))
+		return E_FAIL;
+	ITypeLib* typeLib = nullptr;
+	auto hr = LoadTypeLib(tempFile, &typeLib);
+	if (hr != S_OK) {
+		return hr;
+	}
+	hr = RegisterTypeLib(typeLib, path, NULL);
+	return hr;
 }
 
 STDAPI DllUnregisterServer(void) {

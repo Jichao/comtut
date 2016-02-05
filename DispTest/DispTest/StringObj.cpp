@@ -2,7 +2,6 @@
 #include "StringObj.h"
 #include "String_h.h"
 #include "string_i.c"
-
 StringObj::StringObj()
 {
     count_ = 0;
