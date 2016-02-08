@@ -4,8 +4,8 @@ import "ocidl.idl";
 [
 	uuid(A3A558F8-EDAA-487A-8E83-CDBFC4069165),
 	dual,
-	oleautomation,
 	object,
+	nonextensible,
 	pointer_default(unique)
 ]
 interface IString : IDispatch {

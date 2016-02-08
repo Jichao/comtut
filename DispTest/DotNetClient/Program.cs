@@ -14,7 +14,6 @@ namespace DotNetClient
             String result = obj.Concat("Hello", "World");
             System.Console.Write(result);
         }
-
         static void LaterBinding()
         {
             Type comType = Type.GetTypeFromCLSID(new Guid("B1D59117-CC63-483B-9A19-240A5A19ED67"));

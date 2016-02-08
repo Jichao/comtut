@@ -58,7 +58,6 @@ HRESULT STDMETHODCALLTYPE StringObj::GetTypeInfoCount(/* [out] */ __RPC__out UIN
 HRESULT STDMETHODCALLTYPE StringObj::GetTypeInfo(/* [in] */ UINT iTInfo, /* [in] */ LCID lcid, /* [out] */
         __RPC__deref_out_opt ITypeInfo **ppTInfo)
 {
-	TRACE("GetTypeInfo\n");
     if (FAILED(ensureTypeInfo())) {
         return E_FAIL;
     }
@@ -70,7 +69,6 @@ HRESULT STDMETHODCALLTYPE StringObj::GetIDsOfNames(/* [in] */ __RPC__in REFIID r
         __RPC__in_ecount_full(cNames) LPOLESTR *rgszNames, /* [range][in] */ __RPC__in_range(0,
                 16384) UINT cNames, /* [in] */ LCID lcid, /* [size_is][out] */ __RPC__out_ecount_full(cNames) DISPID *rgDispId)
 {
-	TRACE("GetIDsOfNames\n");
     if (FAILED(ensureTypeInfo())) {
         return E_FAIL;
     }
@@ -82,22 +80,10 @@ HRESULT STDMETHODCALLTYPE StringObj::GetIDsOfNames(/* [in] */ __RPC__in REFIID r
         _In_ WORD wFlags, /* [annotation][out][in] */ _In_ DISPPARAMS *pDispParams, /* [annotation][out] */ _Out_opt_ VARIANT
         *pVarResult, /* [annotation][out] */ _Out_opt_ EXCEPINFO *pExcepInfo, /* [annotation][out] */ _Out_opt_ UINT *puArgErr)
 {
-	//if (dispIdMember == 1 && wFlags == DISPATCH_METHOD) {
-	//	BSTR keke = nullptr;
-	//	auto hr =  Concat(pDispParams->rgvarg[1].bstrVal, pDispParams->rgvarg[0].bstrVal, &keke);
-	//	TRACE("result type = %d\n", pVarResult->vt);
-	//	pVarResult->vt = VT_BSTR;
-	//	pVarResult->bstrVal = keke;
-	//	return hr;
-	//}
-	TRACE("Invoke\n");
     if (FAILED(ensureTypeInfo())) {
         return E_FAIL;
     }
-	pVarResult->vt = VT_BSTR | VT_BYREF;
-	TRACE("dispinvoke %d typeinfo %x\n", dispIdMember, typeInfo_);
-    auto hr =  DispInvoke(this, typeInfo_, dispIdMember, wFlags, pDispParams, pVarResult, pExcepInfo, puArgErr);
-	TRACE("dispinvoke %x\n", hr);
+	auto hr = typeInfo_->Invoke((IDispatch*)this, dispIdMember, wFlags, pDispParams, pVarResult, pExcepInfo, puArgErr);
 	return hr;
 }
 
@@ -108,28 +94,24 @@ HRESULT STDMETHODCALLTYPE StringObj::GetIDsOfNames(/* [in] */ __RPC__in REFIID r
 	WCHAR* buff = new WCHAR[len];
 	StringCchCopy(buff, len, str1);
 	StringCchCat(buff, len, str2);
-	TRACE(L"Concat buff %s\n", buff);
 	*result = SysAllocString(buff);
 	return S_OK;
 }
 
 HRESULT StringObj::ensureTypeInfo()
 {
-	TRACE("ensureTypeInfo\n");
-    ITypeLib* typeLib;
-    auto hr = LoadRegTypeLib(LIBID_StringLib, 1, 0, 0, &typeLib);
-    if (hr != S_OK) {
-		TRACE("LoadRegTypeLib failed\n");
-        return hr;
-    }
-		TRACE("LoadRegTypeLib suceeded\n");
-    hr = typeLib->GetTypeInfoOfGuid(CLSID_StringObj, &typeInfo_);
-    if (hr != S_OK) {
-		TRACE("GetTypeInfoOfGuid failed\n");
-        return hr;
-    }
-	TRACE("GetTypeInfoOfGuid suceeded\n");
-    typeInfo_->AddRef();
-    //typeLib->Release();
-    return S_OK;
+	ITypeLib* typeLib;
+	auto hr = LoadRegTypeLib(LIBID_StringLib, 1, 0, 0, &typeLib);
+	if (hr != S_OK) {
+		return hr;
+	}
+	hr = typeLib->GetTypeInfoOfGuid(IID_IString, &typeInfo_);
+	if (hr != S_OK) {
+		return hr;
+	}
+	ITypeInfo2* typeInfo2 = NULL;
+	typeInfo_->QueryInterface(IID_ITypeInfo2, (void**)&typeInfo2);
+	typeInfo_ = typeInfo2;
+	typeLib->Release();
+	return S_OK;
 }

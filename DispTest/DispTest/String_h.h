@@ -4,7 +4,7 @@
 
 
  /* File created by MIDL compiler version 8.00.0603 */
-/* at Fri Feb 05 15:42:40 2016
+/* at Sun Feb 07 20:43:04 2016
  */
 /* Compiler settings for String.idl:
     Oicf, W1, Zp8, env=Win32 (32b run), target_arch=X86 8.00.0603 
@@ -77,7 +77,7 @@ extern "C"{
 #define __IString_INTERFACE_DEFINED__
 
 /* interface IString */
-/* [unique][object][oleautomation][dual][uuid] */ 
+/* [unique][nonextensible][object][dual][uuid] */ 
 
 
 EXTERN_C const IID IID_IString;
