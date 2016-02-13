@@ -62,10 +62,43 @@ STDAPI DllRegisterServer(void) {
 		NULL, path);
 	if (!ret)
 		return E_FAIL;
+
 	ret = RegSetString(HKEY_CLASSES_ROOT, L"CLSID\\{B1D59117-CC63-483B-9A19-240A5A19ED67}\\InprocServer32",
 		L"ThreadingModel", L"Apartment");
 	if (!ret)
 		return E_FAIL;
+
+	ret = RegSetString(HKEY_CLASSES_ROOT, L"CLSID\\{B1D59117-CC63-483B-9A19-240A5A19ED67}\\ProgID",
+		NULL, L"DispTest.String.1");
+	if (!ret)
+		return E_FAIL;
+
+	ret = RegSetString(HKEY_CLASSES_ROOT, L"CLSID\\{B1D59117-CC63-483B-9A19-240A5A19ED67}\\VersionIndependentProgID",
+		NULL, L"DispTest.String");
+	if (!ret)
+		return E_FAIL;
+
+	ret = RegSetString(HKEY_CLASSES_ROOT, L"DispTest.String.1\\CLSID",
+		NULL, L"{B1D59117-CC63-483B-9A19-240A5A19ED67}");
+	if (!ret)
+		return E_FAIL;
+
+	ret = RegSetString(HKEY_CLASSES_ROOT, L"DispTest.String\\CLSID",
+		NULL, L"{B1D59117-CC63-483B-9A19-240A5A19ED67}");
+	if (!ret)
+		return E_FAIL;
+
+	ret = RegSetString(HKEY_CLASSES_ROOT, L"DispTest.String\\CurVer",
+		NULL, L"DispTest.String.1");
+	if (!ret)
+		return E_FAIL;
+
+	HKEY hKey = NULL;
+	auto hr = RegCreateKeyEx(HKEY_CLASSES_ROOT, L"CLSID\\{B1D59117-CC63-483B-9A19-240A5A19ED67}\\Programmable",
+		NULL, NULL, NULL, KEY_ALL_ACCESS, NULL, &hKey, NULL);
+	if (hr != ERROR_SUCCESS)
+		return hr;
+
 	//register the typelib
 	HRSRC hrsrc = FindResource(g_hMod, MAKEINTRESOURCE(1), L"TYPELIB");
 	if (!hrsrc)
@@ -87,7 +120,7 @@ STDAPI DllRegisterServer(void) {
 	if (!CloseHandle(hFile))
 		return E_FAIL;
 	ITypeLib* typeLib = nullptr;
-	auto hr = LoadTypeLib(tempFile, &typeLib);
+	hr = LoadTypeLib(tempFile, &typeLib);
 	if (hr != S_OK) {
 		return hr;
 	}

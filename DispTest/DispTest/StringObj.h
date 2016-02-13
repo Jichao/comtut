@@ -2,7 +2,7 @@
 
 #include "String_h.h"
 
-class StringObj : public IString
+class StringObj : public IString, public IConnectionPointContainer
 {
 public:
 	StringObj();
@@ -49,9 +49,18 @@ public:
 		/* [in] */ BSTR str2,
 		/* [retval][out] */ BSTR *result);
 
+	virtual HRESULT STDMETHODCALLTYPE EnumConnectionPoints(
+		/* [out] */ __RPC__deref_out_opt IEnumConnectionPoints **ppEnum);
+
+	virtual HRESULT STDMETHODCALLTYPE FindConnectionPoint(
+		/* [in] */ __RPC__in REFIID riid,
+		/* [out] */ __RPC__deref_out_opt IConnectionPoint **ppCP);
+
+
 private:
 	HRESULT ensureTypeInfo();
 	ITypeInfo* typeInfo_;
 	volatile long count_;
+	IConnectionPoint* icp_;
 };
 

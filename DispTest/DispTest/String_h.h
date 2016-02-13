@@ -4,7 +4,7 @@
 
 
  /* File created by MIDL compiler version 8.00.0603 */
-/* at Sun Feb 07 20:43:04 2016
+/* at Tue Feb 09 22:28:33 2016
  */
 /* Compiler settings for String.idl:
     Oicf, W1, Zp8, env=Win32 (32b run), target_arch=X86 8.00.0603 
@@ -50,6 +50,13 @@
 typedef interface IString IString;
 
 #endif 	/* __IString_FWD_DEFINED__ */
+
+
+#ifndef ___IStringEvent_FWD_DEFINED__
+#define ___IStringEvent_FWD_DEFINED__
+typedef interface _IStringEvent _IStringEvent;
+
+#endif 	/* ___IStringEvent_FWD_DEFINED__ */
 
 
 #ifndef __StringObj_FWD_DEFINED__
@@ -216,6 +223,121 @@ EXTERN_C const IID IID_IString;
 
 
 EXTERN_C const IID LIBID_StringLib;
+
+#ifndef ___IStringEvent_DISPINTERFACE_DEFINED__
+#define ___IStringEvent_DISPINTERFACE_DEFINED__
+
+/* dispinterface _IStringEvent */
+/* [uuid] */ 
+
+
+EXTERN_C const IID DIID__IStringEvent;
+
+#if defined(__cplusplus) && !defined(CINTERFACE)
+
+    MIDL_INTERFACE("434DF19D-CCAE-4741-AC95-9F97307F2E06")
+    _IStringEvent : public IDispatch
+    {
+    };
+    
+#else 	/* C style interface */
+
+    typedef struct _IStringEventVtbl
+    {
+        BEGIN_INTERFACE
+        
+        HRESULT ( STDMETHODCALLTYPE *QueryInterface )( 
+            _IStringEvent * This,
+            /* [in] */ REFIID riid,
+            /* [annotation][iid_is][out] */ 
+            _COM_Outptr_  void **ppvObject);
+        
+        ULONG ( STDMETHODCALLTYPE *AddRef )( 
+            _IStringEvent * This);
+        
+        ULONG ( STDMETHODCALLTYPE *Release )( 
+            _IStringEvent * This);
+        
+        HRESULT ( STDMETHODCALLTYPE *GetTypeInfoCount )( 
+            _IStringEvent * This,
+            /* [out] */ UINT *pctinfo);
+        
+        HRESULT ( STDMETHODCALLTYPE *GetTypeInfo )( 
+            _IStringEvent * This,
+            /* [in] */ UINT iTInfo,
+            /* [in] */ LCID lcid,
+            /* [out] */ ITypeInfo **ppTInfo);
+        
+        HRESULT ( STDMETHODCALLTYPE *GetIDsOfNames )( 
+            _IStringEvent * This,
+            /* [in] */ REFIID riid,
+            /* [size_is][in] */ LPOLESTR *rgszNames,
+            /* [range][in] */ UINT cNames,
+            /* [in] */ LCID lcid,
+            /* [size_is][out] */ DISPID *rgDispId);
+        
+        /* [local] */ HRESULT ( STDMETHODCALLTYPE *Invoke )( 
+            _IStringEvent * This,
+            /* [annotation][in] */ 
+            _In_  DISPID dispIdMember,
+            /* [annotation][in] */ 
+            _In_  REFIID riid,
+            /* [annotation][in] */ 
+            _In_  LCID lcid,
+            /* [annotation][in] */ 
+            _In_  WORD wFlags,
+            /* [annotation][out][in] */ 
+            _In_  DISPPARAMS *pDispParams,
+            /* [annotation][out] */ 
+            _Out_opt_  VARIANT *pVarResult,
+            /* [annotation][out] */ 
+            _Out_opt_  EXCEPINFO *pExcepInfo,
+            /* [annotation][out] */ 
+            _Out_opt_  UINT *puArgErr);
+        
+        END_INTERFACE
+    } _IStringEventVtbl;
+
+    interface _IStringEvent
+    {
+        CONST_VTBL struct _IStringEventVtbl *lpVtbl;
+    };
+
+    
+
+#ifdef COBJMACROS
+
+
+#define _IStringEvent_QueryInterface(This,riid,ppvObject)	\
+    ( (This)->lpVtbl -> QueryInterface(This,riid,ppvObject) ) 
+
+#define _IStringEvent_AddRef(This)	\
+    ( (This)->lpVtbl -> AddRef(This) ) 
+
+#define _IStringEvent_Release(This)	\
+    ( (This)->lpVtbl -> Release(This) ) 
+
+
+#define _IStringEvent_GetTypeInfoCount(This,pctinfo)	\
+    ( (This)->lpVtbl -> GetTypeInfoCount(This,pctinfo) ) 
+
+#define _IStringEvent_GetTypeInfo(This,iTInfo,lcid,ppTInfo)	\
+    ( (This)->lpVtbl -> GetTypeInfo(This,iTInfo,lcid,ppTInfo) ) 
+
+#define _IStringEvent_GetIDsOfNames(This,riid,rgszNames,cNames,lcid,rgDispId)	\
+    ( (This)->lpVtbl -> GetIDsOfNames(This,riid,rgszNames,cNames,lcid,rgDispId) ) 
+
+#define _IStringEvent_Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr)	\
+    ( (This)->lpVtbl -> Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr) ) 
+
+#endif /* COBJMACROS */
+
+
+#endif 	/* C style interface */
+
+
+#endif 	/* ___IStringEvent_DISPINTERFACE_DEFINED__ */
+
 
 EXTERN_C const CLSID CLSID_StringObj;
 

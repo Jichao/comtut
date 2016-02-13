@@ -3,12 +3,13 @@
 #include "String_h.h"
 #include "string_i.c"
 #include "trace.h"
+#include "ConnectionPointImpl.h"
+
 StringObj::StringObj()
 {
     count_ = 0;
     typeInfo_ = nullptr;
 }
-
 
 StringObj::~StringObj()
 {
@@ -23,10 +24,13 @@ HRESULT STDMETHODCALLTYPE StringObj::QueryInterface(REFIID riid, void **ppvObjec
     if (riid == IID_IDispatch) {
         *ppvObject = (IDispatch*)this;
     } else if (riid == IID_IUnknown) {
-        *ppvObject = (IUnknown*)this;
+        *ppvObject = (IDispatch*)this;
     } else if (riid == IID_IString) {
         *ppvObject = (IString*)this;
-    }
+	}
+	else if (riid == IID_IConnectionPointContainer) {
+		*ppvObject = (IConnectionPointContainer*)this;
+	}
     if (*ppvObject) {
 		AddRef();
         return S_OK;
@@ -95,7 +99,39 @@ HRESULT STDMETHODCALLTYPE StringObj::GetIDsOfNames(/* [in] */ __RPC__in REFIID r
 	StringCchCopy(buff, len, str1);
 	StringCchCat(buff, len, str2);
 	*result = SysAllocString(buff);
+	if (icp_) {
+		for (_IStringEvent* client : ((ConnectionPointImpl<_IStringEvent>*)icp_)->clients_) {
+			DISPPARAMS disp = { 0 };
+			VARIANT arg1;
+			VariantInit(&arg1);
+			arg1.vt = VT_BSTR;
+			arg1.bstrVal = *result;
+			VARIANTARG args[] = { arg1 };
+			disp.cArgs = 1;
+			disp.cNamedArgs = 0;
+			disp.rgvarg = args;
+			VARIANT var;
+			VariantInit(&var);
+			client->Invoke(1, IID_NULL, 0, INVOKE_FUNC, &disp, &var, NULL, NULL);
+		}
+	}
 	return S_OK;
+}
+
+HRESULT STDMETHODCALLTYPE StringObj::EnumConnectionPoints(/* [out] */ __RPC__deref_out_opt IEnumConnectionPoints **ppEnum)
+{
+	return E_NOTIMPL;
+}
+
+HRESULT STDMETHODCALLTYPE StringObj::FindConnectionPoint(/* [in] */ __RPC__in REFIID riid,
+	/* [out] */ __RPC__deref_out_opt IConnectionPoint **ppCP)
+{
+	if (riid == DIID__IStringEvent) {
+		*ppCP = new ConnectionPointImpl<_IStringEvent>(DIID__IStringEvent, this);
+		icp_ = *ppCP;
+		return S_OK;
+	}
+	return E_NOINTERFACE;
 }
 
 HRESULT StringObj::ensureTypeInfo()
