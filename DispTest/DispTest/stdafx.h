@@ -18,3 +18,6 @@
 #include <tchar.h>
 #include <strsafe.h>
 #include <Shlwapi.h>
+#include <vector>
+#include <map>
+#include <algorithm>

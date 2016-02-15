@@ -1,6 +1,7 @@
 #pragma once
 
 #include "String_h.h"
+#include <map>
 
 class StringObj : public IString, public IConnectionPointContainer
 {
@@ -59,6 +60,11 @@ public:
 
 private:
 	HRESULT ensureTypeInfo();
+	void initConnectionMap();
+	void fireOnResult(BSTR result);
+
+private:
+	std::vector<IConnectionPoint*> connectionPoints_;
 	ITypeInfo* typeInfo_;
 	volatile long count_;
 	IConnectionPoint* icp_;

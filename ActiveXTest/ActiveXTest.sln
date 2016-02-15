@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.40629.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NativeClient", "NativeClient\NativeClient.vcxproj", "{E4F77700-C87F-430A-B2AA-FD85894E6640}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CircleControl", "CircleControl\CircleControl.vcxproj", "{0CC04656-0043-40CC-957B-8C24B38F7444}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E4F77700-C87F-430A-B2AA-FD85894E6640}.Debug|Win32.ActiveCfg = Debug|Win32
+		{E4F77700-C87F-430A-B2AA-FD85894E6640}.Debug|Win32.Build.0 = Debug|Win32
+		{E4F77700-C87F-430A-B2AA-FD85894E6640}.Release|Win32.ActiveCfg = Release|Win32
+		{E4F77700-C87F-430A-B2AA-FD85894E6640}.Release|Win32.Build.0 = Release|Win32
+		{0CC04656-0043-40CC-957B-8C24B38F7444}.Debug|Win32.ActiveCfg = Debug|Win32
+		{0CC04656-0043-40CC-957B-8C24B38F7444}.Debug|Win32.Build.0 = Debug|Win32
+		{0CC04656-0043-40CC-957B-8C24B38F7444}.Release|Win32.ActiveCfg = Release|Win32
+		{0CC04656-0043-40CC-957B-8C24B38F7444}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

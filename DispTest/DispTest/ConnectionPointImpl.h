@@ -1,10 +1,10 @@
 #pragma once
 #include "OCIdl.h"
 #include <vector>
+#include "IEnumConnectionsImpl.h"
 
 template <typename IT>
-class ConnectionPointImpl :
-	public IConnectionPoint
+class ConnectionPointImpl : public IConnectionPoint
 {
 public:
 	ConnectionPointImpl(IID interfaceIId, IConnectionPointContainer* cpc) {
@@ -12,6 +12,7 @@ public:
 		if (cpc_)
 			cpc_->AddRef();
 		count_ = 0;
+		cookie_ = 0;
 		interfaceIID_ = interfaceIId;
 	}
 	~ConnectionPointImpl() {
@@ -63,28 +64,38 @@ public:
 	virtual HRESULT STDMETHODCALLTYPE Advise(
 		/* [in] */ __RPC__in_opt IUnknown *pUnkSink,
 		/* [out] */ __RPC__out DWORD *pdwCookie) {
+		if (!pUnkSink || !pdwCookie) {
+			return E_INVALIDARG;
+		}
 		pUnkSink->AddRef();
-		*pdwCookie = clients_.size();
-		IT* eventPtr = nullptr;
-		pUnkSink->QueryInterface(interfaceIID_, (void**)&eventPtr);
-		clients_.push_back(eventPtr);
+		*pdwCookie = cookie_;
+		cookie_++;
+		CONNECTDATA cd = { pUnkSink, *pdwCookie };
+		connectData_.push_back(cd);
 		return S_OK;
 	}
 
 	virtual HRESULT STDMETHODCALLTYPE Unadvise(
 		/* [in] */ DWORD dwCookie) {
-		clients_[dwCookie]->Release();
-		clients_[dwCookie] = nullptr;
-		return S_OK;
+		auto iter = std::find_if(connectData_.begin(), connectData_.end(), [dwCookie](const CONNECTDATA& cd) {
+			return (dwCookie == cd.dwCookie);
+		});
+		if (iter != connectData_.end()) {
+			connectData_.erase(iter);
+			return S_OK;
+		}
+		return E_INVALIDARG;
 	}
 
 	virtual HRESULT STDMETHODCALLTYPE EnumConnections(
 		/* [out] */ __RPC__deref_out_opt IEnumConnections **ppEnum) {
-		return E_NOTIMPL;
+		*ppEnum = new IEnumConnectionsImpl(connectData_);
+		return S_OK;
 	}
 
-	std::vector<IT*> clients_;
 private:
+	DWORD cookie_;
+	std::vector<CONNECTDATA> connectData_;
 	volatile long count_;
 	IConnectionPointContainer* cpc_;
 	IID interfaceIID_;

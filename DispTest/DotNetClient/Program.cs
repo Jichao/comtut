@@ -23,10 +23,23 @@ namespace DotNetClient
             Object result = comType.InvokeMember("Concat", BindingFlags.InvokeMethod, null, obj, args);
             System.Console.WriteLine(result);
         }
+
+        static void ConnectionPointTest()
+        {
+            StringLib.StringObjClass obj = new StringLib.StringObjClass();
+            obj.OnConcatResult += new StringLib._IStringEvent_OnConcatResultEventHandler(OnConcatResult);
+            String result = obj.Concat("Hello", "World");
+            System.Console.WriteLine(result);
+        }
+        static void OnConcatResult(string result)
+        {
+            System.Console.WriteLine("concat result = " + result);
+        }
         static void Main(string[] args)
         {
             EarlyBindig();
             LaterBinding();
+            ConnectionPointTest();
         }
     }
 }
