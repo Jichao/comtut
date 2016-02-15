@@ -1,0 +1,12 @@
+  
+// Commands (ID_* and IDM_*)  
+// Prompts (IDP_*)  
+// Resources (IDR_*)  
+// Dialogs (IDD_*)  
+HIDD_ABOUTBOX_NTGRAPH                   0x20001
+HIDD_PROPPAGE_ELEMENTS                  0x2006A
+HIDD_PROPPAGE_NTGRAPH                   0x200C8
+HIDD_PROPPAGE_ANNOTATION                0x200E6
+HIDD_PROPPAGE_CURSOR                    0x200E8
+HIDD_PROPAGE_FORMAT                     0x200EA
+// Frame Controls (IDW_*)  

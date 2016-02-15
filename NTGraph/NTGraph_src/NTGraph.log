@@ -1,0 +1,24 @@
+Microsoft (R) Help Compiler
+HCRTF 4.03.0002
+Copyright (c) Microsoft Corp 1990 - 1995. All rights reserved.
+ntgraph.hpj  
+    HC4008: Warning: 
+	Cannot find or load FTSRCH.DLL. Hall compression turned off.
+    HC1010: Note: 
+	The following mapped Topic IDs were not used in any topic:
+	HIDD_PROPPAGE_ANNOTATION
+	HIDD_PROPPAGE_ELEMENTS
+	HIDD_PROPPAGE_NTGRAPH
+	HIDD_PROPPAGE_CURSOR
+	HIDD_PROPAGE_FORMAT
+7	Topics
+5	Jumps
+4	Keywords
+78	Bitmaps
+
+
+Created E:\source\comtut\NTGraph\NTGraph_src\NTGraph.hlp, 37,192 bytes
+Bitmaps: 19,392 bytes
+Zeck compression decreased help file by 6,149 bytes.
+Compile time: 0 minutes, 0 seconds
+1 note, 1 warning

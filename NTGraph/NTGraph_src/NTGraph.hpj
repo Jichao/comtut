@@ -1,0 +1,24 @@
+; This file is maintained by HCW. Do not modify this file directly.
+
+[OPTIONS]
+COMPRESS=12 Hall Zeck
+ERRORLOG=NTGraph.log
+LCID=0x409 0x0 0x0 ; Englisch (USA)
+REPORT=Yes
+CONTENTS=main_index
+TITLE=NTGRAPH Control Help
+BMROOT=hlp
+HLP=NTGraph.hlp
+
+[FILES]
+hlp\NTGraph.rtf
+
+[ALIAS]
+HIDD_ABOUTBOX_NTGRAPH = HID_APP_ABOUT_NTGRAPH
+
+[MAP]
+#include <hlp\NTGraph.hm>
+IDH_HOWDOIUSE=18002
+IDH_METHODS=18003
+IDH_PROPERTIES=18004
+IDH_WHATISTHISTHING=18001
