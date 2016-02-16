@@ -100,27 +100,27 @@ STDAPI DllRegisterServer(void) {
 		return hr;
 
 	//register the typelib
-	HRSRC hrsrc = FindResource(g_hMod, MAKEINTRESOURCE(1), L"TYPELIB");
-	if (!hrsrc)
-		return E_FAIL;
-	HGLOBAL hGlobal = LoadResource(g_hMod, hrsrc);
-	if (!hGlobal)
-		return E_FAIL;
-	auto size = SizeofResource(g_hMod, hrsrc);
-	WCHAR tempDir[MAX_PATH];
-	GetTempPath(MAX_PATH, tempDir);
-	WCHAR tempFile[MAX_PATH];
-	GetTempFileName(tempDir, L"keke", 0, tempFile);
-	HANDLE hFile = CreateFile(tempFile, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_TEMPORARY, NULL);
-	if (hFile == INVALID_HANDLE_VALUE)
-		return E_FAIL;
-	DWORD byteCount;
-	if (!WriteFile(hFile, hGlobal, size, &byteCount, NULL) || byteCount != size)
-		return E_FAIL;
-	if (!CloseHandle(hFile))
-		return E_FAIL;
+	//HRSRC hrsrc = FindResource(g_hMod, MAKEINTRESOURCE(1), L"TYPELIB");
+	//if (!hrsrc)
+	//	return E_FAIL;
+	//HGLOBAL hGlobal = LoadResource(g_hMod, hrsrc);
+	//if (!hGlobal)
+	//	return E_FAIL;
+	//auto size = SizeofResource(g_hMod, hrsrc);
+	//WCHAR tempDir[MAX_PATH];
+	//GetTempPath(MAX_PATH, tempDir);
+	//WCHAR tempFile[MAX_PATH];
+	//GetTempFileName(tempDir, L"keke", 0, tempFile);
+	//HANDLE hFile = CreateFile(tempFile, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_TEMPORARY, NULL);
+	//if (hFile == INVALID_HANDLE_VALUE)
+	//	return E_FAIL;
+	//DWORD byteCount;
+	//if (!WriteFile(hFile, hGlobal, size, &byteCount, NULL) || byteCount != size)
+	//	return E_FAIL;
+	//if (!CloseHandle(hFile))
+	//	return E_FAIL;
 	ITypeLib* typeLib = nullptr;
-	hr = LoadTypeLib(tempFile, &typeLib);
+	hr = LoadTypeLib(path, &typeLib);
 	if (hr != S_OK) {
 		return hr;
 	}
