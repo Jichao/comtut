@@ -318,7 +318,7 @@ echo regsvr32 exec. time &gt; "$(OutDir)regsvr32.trg" </Command>
   <ItemGroup>
     <CustomBuild Include="Hlp\NTGraph.rtf" />
     <CustomBuild Include="NTGraph.def" />
-    <CustomBuild Include="NTGraph.hpj">
+    <Xml Include="NTGraph.hpj">
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">start /wait hcw /C /E /M "%(Filename).hpj"  
 if errorlevel 1 goto :Error  
 if not exist "%(Filename).hlp" goto :Error  
@@ -363,7 +363,8 @@ type %(Filename).log
 :done</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Unicode Release|Win32'">Building Help ...</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Unicode Release|Win32'">$(InputName).hlp;$(OutDir)\$(InputName).hlp;%(Outputs)</Outputs>
-    </CustomBuild>
+      <FileType>Document</FileType>
+    </Xml>
     <CustomBuild Include="Test.dsm" />
   </ItemGroup>
   <ItemGroup>

@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Template|Win32">
+      <Configuration>Template</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectName>todosvr</ProjectName>
+    <SccProjectName />
+    <SccLocalPath />
+    <Keyword>MakeFileProj</Keyword>
+    <ProjectGuid>{8B08FE28-D453-44EA-A1AE-498BFA1ECE6C}</ProjectGuid>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Template|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Makefile</ConfigurationType>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Template|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.Cpp.UpgradeFromVC60.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.Cpp.UpgradeFromVC60.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>.\debug\</OutDir>
+    <IntDir>.\Debug\</IntDir>
+    <NMakeBuildCommandLine>NMAKE /f makefile</NMakeBuildCommandLine>
+    <NMakeReBuildCommandLine>NMAKE /f makefile /a</NMakeReBuildCommandLine>
+    <NMakeOutput>debug\todosvr.ocx</NMakeOutput>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>.\release\</OutDir>
+    <IntDir>.\Release\</IntDir>
+    <NMakeBuildCommandLine>NMAKE /f makefile</NMakeBuildCommandLine>
+    <NMakeReBuildCommandLine>NMAKE /f makefile /a</NMakeReBuildCommandLine>
+    <NMakeOutput>release\todosvr.ocx</NMakeOutput>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>../INCLUDE;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="MAKEFILE" />
+    <None Include="todosvr.bsc" />
+    <CustomBuild Include="TODOSVR.DEF" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="CDOCOBJ.CPP" />
+    <ClCompile Include="DOREG.CPP" />
+    <ClCompile Include="GUIDS.CPP" />
+    <ClCompile Include="IODOC.CPP" />
+    <ClCompile Include="IODOCVW.CPP" />
+    <ClCompile Include="MENU.CPP" />
+    <ClCompile Include="TODOCTL.CPP" />
+    <ClCompile Include="TODOPPG.CPP" />
+    <ClCompile Include="TODOSVR.CPP" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CDOCOBJ.H" />
+    <ClInclude Include="DISPIDS.H" />
+    <ClInclude Include="DWINVERS.H" />
+    <ClInclude Include="GUIDS.H" />
+    <ClInclude Include="LOCALOBJ.H" />
+    <ClInclude Include="RESOURCE.H" />
+    <ClInclude Include="TODOCTL.H" />
+    <ClInclude Include="TODOPPG.H" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="TODOSVR.RC" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="TODOCTL.BMP" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FRAMEWRK\CTLFWD32.vcxproj">
+      <Project>{845eda5a-f5e3-489b-a4db-86eb26f05134}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

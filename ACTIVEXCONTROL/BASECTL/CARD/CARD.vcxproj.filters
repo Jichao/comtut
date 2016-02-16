@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{28c98cee-8569-4569-987e-8b69f69efbd3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{3b612c5a-1008-4322-b9cb-387fcddaa7f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{d28bcd0e-f602-4e52-ac05-afd9297331b2}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="CARD.CPP">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CARDCTL.CPP">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CARDDRAW.CPP">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CARDPPG.CPP">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CATHELP.CPP">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GUIDS.CPP">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CARDCTL.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CARDDRAW.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CARDPPG.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CATHELP.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DISPIDS.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DWINVERS.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GUIDS.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LOCALOBJ.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RESOURCE.H">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CardInterfaces.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="CARD.RC">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="CARD.DEF">
+      <Filter>Source Files</Filter>
+    </CustomBuild>
+  </ItemGroup>
+</Project>

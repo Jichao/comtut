@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectName>card</ProjectName>
+    <SccProjectName />
+    <SccLocalPath />
+    <Keyword>MakeFileProj</Keyword>
+    <ProjectGuid>{DB27FF91-1808-40C3-9D1F-1545BCC8492D}</ProjectGuid>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Makefile</ConfigurationType>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.Cpp.UpgradeFromVC60.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.Cpp.UpgradeFromVC60.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>.\debug\</OutDir>
+    <IntDir>.\Debug\</IntDir>
+    <NMakeBuildCommandLine>NMAKE /f makefile</NMakeBuildCommandLine>
+    <NMakeReBuildCommandLine>NMAKE /f makefile /a</NMakeReBuildCommandLine>
+    <NMakeOutput>debug\card.ocx</NMakeOutput>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>.\release\</OutDir>
+    <IntDir>.\Release\</IntDir>
+    <NMakeBuildCommandLine>NMAKE /f makefile</NMakeBuildCommandLine>
+    <NMakeReBuildCommandLine>NMAKE /f makefile /a</NMakeReBuildCommandLine>
+    <NMakeOutput>release\card.ocx</NMakeOutput>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>../INCLUDE;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="CARD.DEF" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="CARD.CPP" />
+    <ClCompile Include="CARDCTL.CPP" />
+    <ClCompile Include="CARDDRAW.CPP" />
+    <ClCompile Include="CARDPPG.CPP" />
+    <ClCompile Include="CATHELP.CPP" />
+    <ClCompile Include="GUIDS.CPP" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CARDCTL.H" />
+    <ClInclude Include="CARDDRAW.H" />
+    <ClInclude Include="CardInterfaces.h" />
+    <ClInclude Include="CARDPPG.H" />
+    <ClInclude Include="CATHELP.H" />
+    <ClInclude Include="DISPIDS.H" />
+    <ClInclude Include="DWINVERS.H" />
+    <ClInclude Include="GUIDS.H" />
+    <ClInclude Include="LOCALOBJ.H" />
+    <ClInclude Include="RESOURCE.H" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="CARD.RC" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FRAMEWRK\CTLFWD32.vcxproj">
+      <Project>{845eda5a-f5e3-489b-a4db-86eb26f05134}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

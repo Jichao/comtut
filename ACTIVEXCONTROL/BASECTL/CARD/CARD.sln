@@ -1,0 +1,41 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.40629.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "card", "CARD.vcxproj", "{DB27FF91-1808-40C3-9D1F-1545BCC8492D}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ctlfwd32", "..\FRAMEWRK\CTLFWD32.vcxproj", "{845EDA5A-F5E3-489B-A4DB-86EB26F05134}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "todosvr", "..\TODOSVR\TODOSVR.vcxproj", "{8B08FE28-D453-44EA-A1AE-498BFA1ECE6C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+		Template|Win32 = Template|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DB27FF91-1808-40C3-9D1F-1545BCC8492D}.Debug|Win32.ActiveCfg = Debug|Win32
+		{DB27FF91-1808-40C3-9D1F-1545BCC8492D}.Debug|Win32.Build.0 = Debug|Win32
+		{DB27FF91-1808-40C3-9D1F-1545BCC8492D}.Release|Win32.ActiveCfg = Release|Win32
+		{DB27FF91-1808-40C3-9D1F-1545BCC8492D}.Release|Win32.Build.0 = Release|Win32
+		{DB27FF91-1808-40C3-9D1F-1545BCC8492D}.Template|Win32.ActiveCfg = Release|Win32
+		{DB27FF91-1808-40C3-9D1F-1545BCC8492D}.Template|Win32.Build.0 = Release|Win32
+		{845EDA5A-F5E3-489B-A4DB-86EB26F05134}.Debug|Win32.ActiveCfg = Debug|Win32
+		{845EDA5A-F5E3-489B-A4DB-86EB26F05134}.Debug|Win32.Build.0 = Debug|Win32
+		{845EDA5A-F5E3-489B-A4DB-86EB26F05134}.Release|Win32.ActiveCfg = Release|Win32
+		{845EDA5A-F5E3-489B-A4DB-86EB26F05134}.Release|Win32.Build.0 = Release|Win32
+		{845EDA5A-F5E3-489B-A4DB-86EB26F05134}.Template|Win32.ActiveCfg = Template|Win32
+		{845EDA5A-F5E3-489B-A4DB-86EB26F05134}.Template|Win32.Build.0 = Template|Win32
+		{8B08FE28-D453-44EA-A1AE-498BFA1ECE6C}.Debug|Win32.ActiveCfg = Debug|Win32
+		{8B08FE28-D453-44EA-A1AE-498BFA1ECE6C}.Debug|Win32.Build.0 = Debug|Win32
+		{8B08FE28-D453-44EA-A1AE-498BFA1ECE6C}.Release|Win32.ActiveCfg = Release|Win32
+		{8B08FE28-D453-44EA-A1AE-498BFA1ECE6C}.Release|Win32.Build.0 = Release|Win32
+		{8B08FE28-D453-44EA-A1AE-498BFA1ECE6C}.Template|Win32.ActiveCfg = Template|Win32
+		{8B08FE28-D453-44EA-A1AE-498BFA1ECE6C}.Template|Win32.Build.0 = Template|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

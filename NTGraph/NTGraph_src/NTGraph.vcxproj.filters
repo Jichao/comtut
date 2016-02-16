@@ -142,13 +142,15 @@
     <CustomBuild Include="NTGraph.def">
       <Filter>Source Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="NTGraph.hpj">
-      <Filter>Source Files</Filter>
-    </CustomBuild>
     <CustomBuild Include="Resource.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
     <CustomBuild Include="Hlp\NTGraph.rtf" />
     <CustomBuild Include="Test.dsm" />
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="NTGraph.hpj">
+      <Filter>Source Files</Filter>
+    </Xml>
   </ItemGroup>
 </Project>
