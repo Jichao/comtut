@@ -7,6 +7,11 @@
 	/* [annotation][in] */ _In_ REFIID riid,
 	/* [annotation][iid_is][out] */ _COM_Outptr_ void **ppvObject)
 {
+	LICINFO licInfo;
+	GetLicInfo(&licInfo);
+	if (!licInfo.fLicVerified) {
+		return CLASS_E_NOTLICENSED;
+	}
 	StringObj* obj = new StringObj();
 	auto hr = obj->QueryInterface(riid, ppvObject);
 	if (S_OK != hr) {
@@ -46,4 +51,31 @@ ULONG STDMETHODCALLTYPE StringObjFactory::Release(void)
 		delete this;
 	}
 	return count;
+}
+
+HRESULT STDMETHODCALLTYPE StringObjFactory::GetLicInfo(/* [out][in] */ __RPC__inout LICINFO *pLicInfo)
+{
+	if (!pLicInfo)
+		return E_POINTER;
+	pLicInfo->cbLicInfo = sizeof(LICINFO);
+	pLicInfo->fLicVerified = FALSE;
+	pLicInfo->fRuntimeKeyAvail = FALSE;
+	return S_OK;
+}
+
+HRESULT STDMETHODCALLTYPE StringObjFactory::RequestLicKey(
+	/* [in] */ DWORD dwReserved,
+	/* [out] */ __RPC__deref_out_opt BSTR *pBstrKey)
+{
+	return E_NOTIMPL;
+}
+
+/* [local] */ HRESULT STDMETHODCALLTYPE StringObjFactory::CreateInstanceLic(
+	/* [in] */ IUnknown *pUnkOuter,
+	/* [in] */ IUnknown *pUnkReserved,
+	/* [in] */ REFIID riid,
+	/* [in] */ BSTR bstrKey,
+	/* [iid_is][out] */ PVOID *ppvObj)
+{
+	return E_NOTIMPL;
 }

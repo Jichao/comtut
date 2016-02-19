@@ -1,6 +1,6 @@
 #pragma once
-
-class StringObjFactory : public IClassFactory {
+#include <OCIdl.h>
+class StringObjFactory : public IClassFactory2 {
 public:
 	virtual HRESULT STDMETHODCALLTYPE QueryInterface(REFIID riid, void **ppvObject);
 	virtual ULONG STDMETHODCALLTYPE AddRef(void);
@@ -16,6 +16,21 @@ public:
 
 	virtual /* [local] */ HRESULT STDMETHODCALLTYPE LockServer(
 		/* [in] */ BOOL fLock);
+
+	virtual HRESULT STDMETHODCALLTYPE GetLicInfo(
+		/* [out][in] */ __RPC__inout LICINFO *pLicInfo);
+
+	virtual HRESULT STDMETHODCALLTYPE RequestLicKey(
+		/* [in] */ DWORD dwReserved,
+		/* [out] */ __RPC__deref_out_opt BSTR *pBstrKey);
+
+	virtual /* [local] */ HRESULT STDMETHODCALLTYPE CreateInstanceLic(
+		/* [in] */ IUnknown *pUnkOuter,
+		/* [in] */ IUnknown *pUnkReserved,
+		/* [in] */ REFIID riid,
+		/* [in] */ BSTR bstrKey,
+		/* [iid_is][out] */ PVOID *ppvObj);
+
 private:
 	volatile LONG count_;
 };

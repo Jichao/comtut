@@ -2,6 +2,8 @@
 //
 
 #include "stdafx.h"
+#include "../CircleControl/CircleControl_h.h"
+#include "../CircleControl/CircleControl_i.c"
 #include "NativeClient.h"
 
 #define MAX_LOADSTRING 100
@@ -95,7 +97,11 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
 //
 BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 {
-   HWND hWnd;
+	CoInitialize(NULL);
+	ICircleControl* control;
+	auto hr = CoCreateInstance(CLSID_CircleControl, NULL, CLSCTX_INPROC_SERVER, IID_ICircleControl, (void**)&control);
+	control->put_Radius(10.);
+	HWND hWnd;
 
    hInst = hInstance; // Store instance handle in our global variable
 

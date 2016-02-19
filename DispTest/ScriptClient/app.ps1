@@ -1,3 +1,4 @@
+# assembly clr version and powershell version need match
 $assemblyPath = Resolve-Path ..\Debug\StringLib.dll
 $null = [Reflection.Assembly]::LoadFile($assemblyPath)
 $myobj = New-Object StringLib.StringObjClass
