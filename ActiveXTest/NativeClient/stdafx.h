@@ -16,6 +16,6 @@
 #include <malloc.h>
 #include <memory.h>
 #include <tchar.h>
-
-
-// TODO: reference additional headers your program requires here
+#include <Ole2.h>
+#include <gdiplus.h>
+#pragma comment(lib, "gdiplus.lib")

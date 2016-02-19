@@ -1,6 +1,6 @@
 #pragma once
 
-class CircleControlFactory : public IClassFactory {
+class CircleAvatarFactory : public IClassFactory {
 public:
 	virtual HRESULT STDMETHODCALLTYPE QueryInterface(REFIID riid, void **ppvObject);
 	virtual ULONG STDMETHODCALLTYPE AddRef(void);

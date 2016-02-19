@@ -1,6 +1,6 @@
 // dllmain.cpp : Defines the entry point for the DLL application.
 #include "stdafx.h"
-#include "CircleControl_h.h"
+#include "CircleAvatar_h.h"
 #include "CircleControlFactory.h"
 
 HMODULE g_hMod = NULL;
@@ -36,10 +36,10 @@ BOOL APIENTRY DllMain(HMODULE hModule,
 }
 
 STDAPI  DllGetClassObject(_In_ REFCLSID rclsid, _In_ REFIID riid, _Outptr_ LPVOID FAR* ppv) {
-	if (rclsid != CLSID_CircleControl) {
+	if (rclsid != CLSID_CircleAvatar) {
 		return E_NOINTERFACE;
 	}
-	CircleControlFactory* factory = new CircleControlFactory();
+	CircleAvatarFactory* factory = new CircleAvatarFactory();
 	auto hr = factory->QueryInterface(riid, ppv);
 	if (S_OK != hr) {
 		delete factory;
