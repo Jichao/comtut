@@ -19,7 +19,6 @@
 		*ppvObject = NULL;
 		return hr;
 	}
-	obj->AddRef();
 	return S_OK;
 }
 
@@ -58,7 +57,7 @@ HRESULT STDMETHODCALLTYPE PolylineObjFactory::GetLicInfo(/* [out][in] */ __RPC__
 	if (!pLicInfo)
 		return E_POINTER;
 	pLicInfo->cbLicInfo = sizeof(LICINFO);
-	pLicInfo->fLicVerified = FALSE;
+	pLicInfo->fLicVerified = TRUE;
 	pLicInfo->fRuntimeKeyAvail = FALSE;
 	return S_OK;
 }

@@ -3,22 +3,21 @@
 
 #include "stdafx.h"
 #include "GuiClient.h"
-#include "../Polyline/Polyline_h.h"
-#include "../Polyline/Polyline_i.c"
-
+#include "PolylineTest.h"
 #define MAX_LOADSTRING 100
 
 // Global Variables:
-IPolyline* pl = NULL;
 HINSTANCE hInst;								// current instance
 TCHAR szTitle[MAX_LOADSTRING];					// The title bar text
 TCHAR szWindowClass[MAX_LOADSTRING];			// the main window class name
+PolylineTest tester;
 
 // Forward declarations of functions included in this code module:
 ATOM				MyRegisterClass(HINSTANCE hInstance);
 BOOL				InitInstance(HINSTANCE, int);
 LRESULT CALLBACK	WndProc(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK	About(HWND, UINT, WPARAM, LPARAM);
+
 
 int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
                      _In_opt_ HINSTANCE hPrevInstance,
@@ -28,34 +27,6 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	UNREFERENCED_PARAMETER(hPrevInstance);
 	UNREFERENCED_PARAMETER(lpCmdLine);
 
-	CoInitialize(NULL);
-	auto hr = CoCreateInstance(CLSID_PolylineObj, NULL, CLSCTX_INPROC_SERVER, IID_IPolyline, (void**)pl);
-	if (FAILED(hr)) {
-		return -1;
-	}
-	LPTYPEINFO pTypeInfo = NULL;
-	LPTYPELIB pTypelib = NULL;
-	IRecordInfo* pRecInfo = NULL;
-	hr = LoadRegTypeLib(LIBID_GraphicsLibrary, 1, 0, GetUserDefaultLCID(), &pTypelib);
-	_ASSERT(SUCCEEDED(hr) && pTypelib);
-	hr = pTypelib->GetTypeInfoOfGuid(__uuidof(PolyPoint), &pTypeInfo);
-	_ASSERT(SUCCEEDED(hr) && pTypeInfo);
-	hr = GetRecordInfoFromTypeInfo(pTypeInfo, &pRecInfo);
-	_ASSERT(SUCCEEDED(hr) && pRecInfo);
-	pTypeInfo->Release();
-	pTypelib->Release();
-
-	std::vector<POINT> points = { { 1, 2 }, { 100, 200 }, { 300, 400 } };
-	auto psa = SafeArrayCreateVectorEx(VT_RECORD, 0, points.size(), pRecInfo);
-	PolyPoint* pps;
-	SafeArrayAccessData(psa, (void**)&pps);
-	_ASSERT(psa);
-	for (size_t i = 0; i < points.size(); ++i) {
-		pps[i].x = points[i].x;
-		pps[i].y = points[i].y;
-	}
-	pl->put_Points(psa);
-	
 
 	MSG msg;
 	HACCEL hAccelTable;
@@ -72,6 +43,10 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	}
 
 	hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_GUICLIENT));
+	tester.testCompoundFile();
+	tester.writePersistFile();
+	tester.readPersistFile();
+	tester.testFileMoniker();
 
 	// Main message loop:
 	while (GetMessage(&msg, NULL, 0, 0))

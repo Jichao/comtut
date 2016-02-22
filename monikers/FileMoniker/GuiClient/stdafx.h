@@ -19,3 +19,5 @@
 #include <ole2.h>
 #include <strsafe.h>
 #include <vector>
+#include <assert.h>
+#include <stdint.h>

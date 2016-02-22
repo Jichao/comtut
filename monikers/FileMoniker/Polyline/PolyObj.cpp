@@ -13,6 +13,17 @@ DEFINE_GUID(UUID_PolyPoint,
 
 
 static const WCHAR kStreamName[] = L"CONTENTS";
+namespace {
+	bool FileExists(LPCWSTR szPath)
+	{
+		DWORD dwAttrib = GetFileAttributes(szPath);
+
+		return (dwAttrib != INVALID_FILE_ATTRIBUTES &&
+			!(dwAttrib & FILE_ATTRIBUTE_DIRECTORY));
+	}
+}
+
+
 
 PolylineObj::PolylineObj()
 {
@@ -26,6 +37,10 @@ PolylineObj::~PolylineObj()
 	if (typeInfo_) {
 		typeInfo_->Release();
 	}
+	if (classInfo_) {
+		classInfo_->Release();
+	}
+
 }
 
 HRESULT STDMETHODCALLTYPE PolylineObj::QueryInterface(REFIID riid, void **ppvObject)
@@ -41,6 +56,10 @@ HRESULT STDMETHODCALLTYPE PolylineObj::QueryInterface(REFIID riid, void **ppvObj
 		*ppvObject = (IConnectionPointContainer*)this;
 	} else if (riid == IID_IPersistFile) {
 		*ppvObject = (IPersistFile*)this;
+	} else if (riid == IID_IProvideClassInfo) {
+		*ppvObject = (IProvideClassInfo*)this;
+	} else if (riid == IID_IProvideClassInfo2) {
+		*ppvObject = (IProvideClassInfo2*)this;
 	}
 	if (*ppvObject) {
 		AddRef();
@@ -186,9 +205,13 @@ HRESULT STDMETHODCALLTYPE PolylineObj::IsDirty(void)
 
 HRESULT STDMETHODCALLTYPE PolylineObj::Load(/* [in] */ __RPC__in LPCOLESTR pszFileName, /* [in] */ DWORD dwMode)
 {
-	if (StgIsStorageFile(pszFileName)) {
+	if (SUCCEEDED(StgIsStorageFile(pszFileName))) {
+		if (dwMode == 0) {
+			dwMode = STGM_READ ;
+		}
+		dwMode = dwMode | STGM_SHARE_EXCLUSIVE | STGM_DIRECT;
 		ComPtr<IStorage> pStorage = nullptr;
-		auto hr = StgOpenStorage(pszFileName, NULL, dwMode, NULL, 0, &pStorage);
+		auto hr = StgOpenStorageEx(pszFileName, dwMode, STGFMT_STORAGE, 0, NULL, 0, IID_IStorage, (void**)&pStorage);
 		if (FAILED(hr))
 			return hr;
 		ComPtr<IStream> pStream = nullptr;
@@ -201,7 +224,7 @@ HRESULT STDMETHODCALLTYPE PolylineObj::Load(/* [in] */ __RPC__in LPCOLESTR pszFi
 			return E_FAIL;
 		points_.resize(lineInfo_.pointCount);
 		hr = pStream->Read(points_.data(), sizeof(POINT) * lineInfo_.pointCount, &cb);
-		if (FAILED(hr) || cb != sizeof(PolylineInfo))
+		if (FAILED(hr) || cb != sizeof(POINT) * lineInfo_.pointCount)
 			return E_FAIL;
 		pStorage_ = pStorage;
 		pStream_ = pStream;
@@ -221,14 +244,14 @@ HRESULT STDMETHODCALLTYPE PolylineObj::Save(/* [unique][in] */ __RPC__in_opt LPC
 		pStorage = pStorage_;
 		pStream = pStream_;
 	} else {
-		if (StgIsStorageFile(pszFileName)) {
+		if (SUCCEEDED(StgIsStorageFile(pszFileName))) {
 			hr = StgOpenStorageEx(pszFileName, STGM_WRITE | STGM_SHARE_EXCLUSIVE | STGM_DIRECT, STGFMT_STORAGE, 0, NULL, 0, IID_IStorage, (void**)&pStorage);
 		} else {
 			hr = StgCreateStorageEx(pszFileName, STGM_WRITE | STGM_SHARE_EXCLUSIVE | STGM_CREATE, STGFMT_STORAGE, 0, NULL, 0, IID_IStorage, (void**)&pStorage);
 		}
 		if (FAILED(hr))
 			return hr;
-		hr = pStorage->OpenStream(kStreamName, NULL, STGM_WRITE | STGM_SHARE_EXCLUSIVE | STGM_CREATE, 0, &pStream);
+		hr = pStorage->OpenStream(kStreamName, NULL, STGM_READ | STGM_SHARE_EXCLUSIVE, 0, &pStream);
 		if (FAILED(hr)) {
 			hr = pStorage->CreateStream(kStreamName, STGM_WRITE | STGM_SHARE_EXCLUSIVE | STGM_CREATE, 0, 0, &pStream);
 		}
@@ -251,6 +274,8 @@ HRESULT STDMETHODCALLTYPE PolylineObj::Save(/* [unique][in] */ __RPC__in_opt LPC
 	if (pszFileName && fRemember) {
 		filePath_ = pszFileName;
 	}
+	pStorage->SetClass(CLSID_PolylineObj);
+	pStorage->Commit(STGC_OVERWRITE);
 	pStream_ = NULL;
 	pStorage_ = NULL;
 	return hr;
@@ -258,10 +283,10 @@ HRESULT STDMETHODCALLTYPE PolylineObj::Save(/* [unique][in] */ __RPC__in_opt LPC
 
 HRESULT STDMETHODCALLTYPE PolylineObj::SaveCompleted(/* [unique][in] */ __RPC__in_opt LPCOLESTR pszFileName)
 {
-	auto hr = StgOpenStorageEx(pszFileName, STGM_WRITE | STGM_SHARE_EXCLUSIVE | STGM_DIRECT, STGFMT_STORAGE, 0, NULL, 0, IID_IStorage, (void**)&pStorage_);
+	auto hr = StgOpenStorageEx(pszFileName, STGM_READWRITE | STGM_SHARE_EXCLUSIVE | STGM_DIRECT, STGFMT_STORAGE, 0, NULL, 0, IID_IStorage, (void**)&pStorage_);
 	if (FAILED(hr))
 		return hr;
-	hr = pStorage_->OpenStream(kStreamName, NULL, STGM_WRITE | STGM_SHARE_EXCLUSIVE | STGM_CREATE, 0, &pStream_);
+	hr = pStorage_->OpenStream(kStreamName, NULL, STGM_READ | STGM_SHARE_EXCLUSIVE, 0, &pStream_);
 	if (FAILED(hr))
 		return hr;
 	filePath_ = pszFileName;
@@ -329,4 +354,37 @@ void PolylineObj::fireOnResult(BSTR result)
 			}
 		}
 	}
+}
+
+HRESULT STDMETHODCALLTYPE PolylineObj::GetClassInfo(/* [out] */ __RPC__deref_out_opt ITypeInfo **ppTI)
+{
+	ensureClassInfo();
+	classInfo_->AddRef();
+	*ppTI = classInfo_;
+	return S_OK;
+}
+
+HRESULT STDMETHODCALLTYPE PolylineObj::GetGUID(/* [in] */ DWORD dwGuidKind, /* [out] */ __RPC__out GUID *pGUID)
+{
+	*pGUID = DIID__IPolylineEvent;
+	return S_OK;
+}
+
+HRESULT PolylineObj::ensureClassInfo()
+{
+	ITypeLib* typeLib;
+	auto hr = LoadRegTypeLib(LIBID_GraphicsLibrary, 1, 0, 0, &typeLib);
+	if (hr != S_OK) {
+		return hr;
+	}
+	hr = typeLib->GetTypeInfoOfGuid(__uuidof(PolylineObj), &classInfo_);
+	if (hr != S_OK) {
+		return hr;
+	}
+	ITypeInfo2* typeInfo2 = NULL;
+	classInfo_->QueryInterface(IID_ITypeInfo2, (void**)&typeInfo2);
+	classInfo_ = typeInfo2;
+	typeLib->Release();
+	return S_OK;
+
 }

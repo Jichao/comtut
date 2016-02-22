@@ -11,7 +11,7 @@ struct PolylineInfo {
 	int pointCount;
 };
 
-class PolylineObj : public IPolyline, public IConnectionPointContainer, public IPersistFile
+class PolylineObj : public IPolyline, public IConnectionPointContainer, public IPersistFile, public IProvideClassInfo2
 {
 public:
 	PolylineObj();
@@ -91,9 +91,16 @@ public:
 	virtual HRESULT STDMETHODCALLTYPE GetCurFile(
 		/* [out] */ __RPC__deref_out_opt LPOLESTR *ppszFileName);
 
+        virtual HRESULT STDMETHODCALLTYPE GetGUID( 
+            /* [in] */ DWORD dwGuidKind,
+            /* [out] */ __RPC__out GUID *pGUID);
+
+		virtual HRESULT STDMETHODCALLTYPE GetClassInfo(
+			/* [out] */ __RPC__deref_out_opt ITypeInfo **ppTI);
 
 private:
 	HRESULT ensureTypeInfo();
+	HRESULT ensureClassInfo();
 	void initConnectionMap();
 	void fireOnResult(BSTR result);
 
@@ -101,6 +108,7 @@ private:
 	std::vector<IConnectionPoint*> connectionPoints_;
 	std::vector<POINT> points_;
 	ITypeInfo* typeInfo_;
+	ITypeInfo* classInfo_;
 	PolylineInfo lineInfo_;
 	bool dirty_;
 	volatile long count_;
