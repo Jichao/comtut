@@ -1,0 +1,56 @@
+import "oaidl.idl";
+import "ocidl.idl";
+
+[uuid(53386330-1406-425F-8264-062B13FA2D16)] struct PolyPoint
+{
+	long x;
+	long y;
+};
+[
+	uuid(5A09E545-E4C3-4EFA-9F42-C321441BF611),
+	dual,
+	object,
+	nonextensible,
+	pointer_default(unique)
+]
+interface IPolyline : IDispatch {
+	[propput, helpstring("set line color")]
+	HRESULT Color([in]COLORREF value);
+	[propget, helpstring("get line color")]
+	HRESULT Color([out, retval]COLORREF* retValue);
+	[propput, helpstring("set points")]
+	HRESULT Points([in]SAFEARRAY(struct PolyPoint) values);
+	[propget, helpstring("get points")]
+	HRESULT Points([out, retval]SAFEARRAY(struct PolyPoint)* retValues);
+};
+
+
+[
+	uuid(D75B706E-307F-46E8-8AA6-B3CD237B3046),
+	version(1.0),
+	helpstring("graphics manipulation typelib"),
+]
+library GraphicsLibrary {
+	importlib("stdole32.tlb");
+	importlib("stdole2.tlb");
+	[
+		uuid(C196D98F-9E3C-4537-ABE7-522394BEDDFC),
+	]
+	dispinterface _IPolylineEvent{
+properties:
+methods:
+	[id(1)]HRESULT OnPointChange();
+	[id(2)]HRESULT OnColorChange([in]COLORREF color);
+	}
+
+		[
+			uuid(FB59B0D8-BA04-441D-8928-95BE137A0D87),
+			licensed,
+			helpstring("Polyline object"),
+		]
+	coclass PolylineObj {
+		[default] interface IPolyline;
+		[default, source] dispinterface _IPolylineEvent;
+	};
+	struct Point;
+}

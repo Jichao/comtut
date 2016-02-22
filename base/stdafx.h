@@ -10,3 +10,4 @@
 #include <windows.h>
 #include <tchar.h>
 #include <gdiplus.h>
+#include <algorithm>

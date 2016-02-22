@@ -24,22 +24,22 @@
     <ClInclude Include="targetver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="trace.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GdiplusStarter.h">
+    <ClInclude Include="PolyObj.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ConnectionPointImpl.h">
+    <ClInclude Include="PolyObjFactory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="IEnumConnectionPointsImpl.h">
+    <ClInclude Include="Polyline_h.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="IEnumConnectionsImpl.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ComPtr.h">
+    <ClInclude Include="resource1.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -47,17 +47,32 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="trace.cpp">
+    <ClCompile Include="Polyline.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GdiplusStarter.cpp">
+    <ClCompile Include="dllmain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="IEnumConnectionPointsImpl.cpp">
+    <ClCompile Include="PolyObjFactory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="IEnumConnectionsImpl.cpp">
+    <ClCompile Include="PolyObj.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Midl Include="Polyline.idl">
+      <Filter>Source Files</Filter>
+    </Midl>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Source.def">
+      <Filter>Source Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Polyline.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>
