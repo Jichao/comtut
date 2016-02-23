@@ -9,16 +9,11 @@ class ConnectionPointImpl : public IConnectionPoint
 public:
 	ConnectionPointImpl(IID interfaceIId, IConnectionPointContainer* cpc) {
 		cpc_ = cpc;
-		if (cpc_)
-			cpc_->AddRef();
 		count_ = 0;
 		cookie_ = 0;
 		interfaceIID_ = interfaceIId;
 	}
 	~ConnectionPointImpl() {
-		if (cpc_) {
-			cpc_->Release();
-		}
 	}
 
 	virtual HRESULT STDMETHODCALLTYPE QueryInterface(REFIID riid, void **ppvObject) {
@@ -57,6 +52,7 @@ public:
 
 	virtual HRESULT STDMETHODCALLTYPE GetConnectionPointContainer(
 		/* [out] */ __RPC__deref_out_opt IConnectionPointContainer **ppCPC) {
+		cpc_->AddRef();
 		*ppCPC = cpc_;
 		return S_OK;
 	}

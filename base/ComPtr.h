@@ -8,7 +8,7 @@ public:
 		pt_ = nullptr;
 	}
 	ComPtr(T* t) {
-		if (pt_) {
+		if (t) {
 			pt_ = t;
 		}
 	}
@@ -33,7 +33,9 @@ public:
 		return *this;
 	}
 	~ComPtr() {
-		pt_->Release();
+		if (pt_) {
+			pt_->Release();
+		}
 	}
 	operator T*() {
 		return pt_;
