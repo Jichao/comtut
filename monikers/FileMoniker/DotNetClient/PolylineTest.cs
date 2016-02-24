@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
 using System.Runtime.InteropServices.ComTypes;
-    using System.Runtime.InteropServices;
+using System.Runtime.InteropServices;
 namespace DotNetClient
 {
     class PolylineTest
@@ -63,11 +63,12 @@ namespace DotNetClient
             guid = typeof(GraphicsLibrary.IPolyline).GUID;
             moniker.BindToObject(pbc, null, guid, out obj);
             GraphicsLibrary.IPolyline pl = (GraphicsLibrary.IPolyline)obj;
-            GraphicsLibrary.PolylineObjClass o = (GraphicsLibrary.PolylineObjClass)pl;
-            foreach (GraphicsLibrary.PolyPoint ptt in o.Points)
+            foreach (GraphicsLibrary.PolyPoint ptt in pl.Points)
             {
                 Trace.WriteLine(String.Format("point ({0}, {1})", ptt.x, ptt.y));
             }
+            Guid clsid;
+            moniker.GetClassID(out clsid);
             return 0;
         }
 

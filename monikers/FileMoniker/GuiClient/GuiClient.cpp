@@ -46,7 +46,8 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	tester.testCompoundFile();
 	tester.writePersistFile();
 	tester.readPersistFile();
-	tester.testFileMoniker();
+	tester.writeFileMoniker();
+	tester.readFileMoniker();
 
 	// Main message loop:
 	while (GetMessage(&msg, NULL, 0, 0))

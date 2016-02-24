@@ -21,3 +21,4 @@
 #include <vector>
 #include <assert.h>
 #include <stdint.h>
+#include <objidl.h>
