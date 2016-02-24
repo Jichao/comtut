@@ -43,11 +43,14 @@ void dispCall() {
 	arg2.bstrVal = SysAllocString(L"world");
 
 	VARIANTARG args[] = { arg1, arg2 };
-	DISPID dispIds[] = { 0, 1 };
 	disp.cArgs = 2;
-	disp.cNamedArgs = 2;
-	disp.rgdispidNamedArgs = dispIds;
 	disp.rgvarg = args;
+	disp.cNamedArgs = 0;
+	disp.rgdispidNamedArgs = NULL;
+	//DISPID dispIds[] = { 0, 1 };
+	//disp.cNamedArgs = 2;
+	//disp.rgdispidNamedArgs = dispIds;
+
 	VARIANT ret;
 	VariantInit(&ret);
 	obj->Invoke(1, IID_NULL, 0, INVOKE_FUNC, &disp, &ret, NULL, NULL);
@@ -57,8 +60,8 @@ void dispCall() {
 }
 int _tmain(int argc, _TCHAR* argv[])
 {
-	normalCall();
-	//dispCall();
+	//normalCall();
+	dispCall();
 	return 0;
 }
 

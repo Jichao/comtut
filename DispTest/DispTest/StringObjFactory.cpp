@@ -58,7 +58,7 @@ HRESULT STDMETHODCALLTYPE StringObjFactory::GetLicInfo(/* [out][in] */ __RPC__in
 	if (!pLicInfo)
 		return E_POINTER;
 	pLicInfo->cbLicInfo = sizeof(LICINFO);
-	pLicInfo->fLicVerified = FALSE;
+	pLicInfo->fLicVerified = TRUE;
 	pLicInfo->fRuntimeKeyAvail = FALSE;
 	return S_OK;
 }
