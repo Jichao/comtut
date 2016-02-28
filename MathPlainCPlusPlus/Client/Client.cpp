@@ -99,6 +99,8 @@ void attributeTest() {
 int _tmain(int argc, _TCHAR* argv[])
 {
 	CoInitialize(NULL);
+	normalTest();
+	attributeTest();
 	dispCallWithRet();
 	dispCallWithoutArg();
 	dispCallWithPointArg();
