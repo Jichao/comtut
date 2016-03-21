@@ -6,13 +6,15 @@
 #pragma once
 
 #include "targetver.h"
+
+#define WIN32_LEAN_AND_MEAN             // Exclude rarely-used stuff from Windows headers
+// Windows Header Files:
 #include <windows.h>
-#include <winnt.h>
-#include <tchar.h>
-#include <gdiplus.h>
-#include <algorithm>
-#include <ole2.h>
-#include <objbase.h>
-#include <strsafe.h>
-#include <string>
 #include <Shlwapi.h>
+#include <strsafe.h>
+#include <algorithm>
+#include <vector>
+#include <map>
+#include <string>
+#include <stdint.h>
+#pragma comment(lib, "Shlwapi.lib")

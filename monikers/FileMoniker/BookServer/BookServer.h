@@ -1,21 +1,14 @@
 #pragma once
 
-#include "Polyline_h.h"
+#include "book_h.h"
 #include "base/ComPtr.h"
 #include <map>
 
-struct PolylineInfo {
-	int version;
-	COLORREF color;
-	int lineStyle;
-	int pointCount;
-};
-
-class PolylineObj : public IPolyline, public IConnectionPointContainer, public IPersistFile, public IProvideClassInfo2
+class Book : public IPolyline, public IConnectionPointContainer, public IPersistFile, public IProvideClassInfo2
 {
 public:
-	PolylineObj();
-	~PolylineObj();
+	BookServer();
+	~BookServer();
 	virtual HRESULT STDMETHODCALLTYPE QueryInterface(REFIID riid, void **ppvObject);
 	virtual ULONG STDMETHODCALLTYPE AddRef(void);
 	virtual ULONG STDMETHODCALLTYPE Release(void);

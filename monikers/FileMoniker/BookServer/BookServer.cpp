@@ -3,9 +3,9 @@
 #include "base/ConnectionPointImpl.h"
 #include "base/IEnumConnectionPointsImpl.h"
 #include "base/ComPtr.h"
-#include "Polyline_h.h"
+#include "book_h.h"
 #include "Polyline_i.c"
-#include "PolyObj.h"
+#include "BookServer.h"
 #include <initguid.h>
 // {53386330-1406-425F-8264-062B13FA2D16}
 DEFINE_GUID(UUID_PolyPoint,
@@ -25,14 +25,14 @@ namespace {
 }
 
 
-PolylineObj::PolylineObj()
+BookServer::BookServer()
 {
 	count_ = 0;
 	typeInfo_ = nullptr;
 	initConnectionMap();
 }
 
-PolylineObj::~PolylineObj()
+BookServer::~BookServer()
 {
 	if (typeInfo_) {
 		typeInfo_->Release();
@@ -43,7 +43,7 @@ PolylineObj::~PolylineObj()
 
 }
 
-HRESULT STDMETHODCALLTYPE PolylineObj::QueryInterface(REFIID riid, void **ppvObject)
+HRESULT STDMETHODCALLTYPE BookServer::QueryInterface(REFIID riid, void **ppvObject)
 {
 	*ppvObject = NULL;
 	if (riid == IID_IDispatch) {
@@ -69,12 +69,12 @@ HRESULT STDMETHODCALLTYPE PolylineObj::QueryInterface(REFIID riid, void **ppvObj
 	}
 }
 
-ULONG STDMETHODCALLTYPE PolylineObj::AddRef(void)
+ULONG STDMETHODCALLTYPE BookServer::AddRef(void)
 {
 	return InterlockedIncrement(&count_);
 }
 
-ULONG STDMETHODCALLTYPE PolylineObj::Release(void)
+ULONG STDMETHODCALLTYPE BookServer::Release(void)
 {
 	LONG count = InterlockedDecrement(&count_);
 	if (count == 0) {
@@ -83,13 +83,13 @@ ULONG STDMETHODCALLTYPE PolylineObj::Release(void)
 	return count;
 }
 
-HRESULT STDMETHODCALLTYPE PolylineObj::GetTypeInfoCount(/* [out] */ __RPC__out UINT *pctinfo)
+HRESULT STDMETHODCALLTYPE BookServer::GetTypeInfoCount(/* [out] */ __RPC__out UINT *pctinfo)
 {
 	*pctinfo = 1;
 	return S_OK;
 }
 
-HRESULT STDMETHODCALLTYPE PolylineObj::GetTypeInfo(/* [in] */ UINT iTInfo, /* [in] */ LCID lcid, /* [out] */
+HRESULT STDMETHODCALLTYPE BookServer::GetTypeInfo(/* [in] */ UINT iTInfo, /* [in] */ LCID lcid, /* [out] */
 	__RPC__deref_out_opt ITypeInfo **ppTInfo)
 {
 	if (FAILED(ensureTypeInfo())) {
@@ -99,7 +99,7 @@ HRESULT STDMETHODCALLTYPE PolylineObj::GetTypeInfo(/* [in] */ UINT iTInfo, /* [i
 	return S_OK;
 }
 
-HRESULT STDMETHODCALLTYPE PolylineObj::GetIDsOfNames(/* [in] */ __RPC__in REFIID riid, /* [size_is][in] */
+HRESULT STDMETHODCALLTYPE BookServer::GetIDsOfNames(/* [in] */ __RPC__in REFIID riid, /* [size_is][in] */
 	__RPC__in_ecount_full(cNames) LPOLESTR *rgszNames, /* [range][in] */ __RPC__in_range(0,
 	16384) UINT cNames, /* [in] */ LCID lcid, /* [size_is][out] */ __RPC__out_ecount_full(cNames) DISPID *rgDispId)
 {
@@ -109,7 +109,7 @@ HRESULT STDMETHODCALLTYPE PolylineObj::GetIDsOfNames(/* [in] */ __RPC__in REFIID
 	return DispGetIDsOfNames(typeInfo_, rgszNames, cNames, rgDispId);
 }
 
-/* [local] */ HRESULT STDMETHODCALLTYPE PolylineObj::Invoke(/* [annotation][in] */ _In_ DISPID
+/* [local] */ HRESULT STDMETHODCALLTYPE BookServer::Invoke(/* [annotation][in] */ _In_ DISPID
 	dispIdMember, /* [annotation][in] */ _In_ REFIID riid, /* [annotation][in] */ _In_ LCID lcid, /* [annotation][in] */
 	_In_ WORD wFlags, /* [annotation][out][in] */ _In_ DISPPARAMS *pDispParams, /* [annotation][out] */ _Out_opt_ VARIANT
 	*pVarResult, /* [annotation][out] */ _Out_opt_ EXCEPINFO *pExcepInfo, /* [annotation][out] */ _Out_opt_ UINT *puArgErr)
@@ -121,13 +121,13 @@ HRESULT STDMETHODCALLTYPE PolylineObj::GetIDsOfNames(/* [in] */ __RPC__in REFIID
 	return hr;
 }
 
-HRESULT STDMETHODCALLTYPE PolylineObj::EnumConnectionPoints(/* [out] */ __RPC__deref_out_opt IEnumConnectionPoints **ppEnum)
+HRESULT STDMETHODCALLTYPE BookServer::EnumConnectionPoints(/* [out] */ __RPC__deref_out_opt IEnumConnectionPoints **ppEnum)
 {
 	*ppEnum = new IEnumConnectionPointsImpl(connectionPoints_);
 	return S_OK;
 }
 
-HRESULT STDMETHODCALLTYPE PolylineObj::FindConnectionPoint(/* [in] */ __RPC__in REFIID riid,
+HRESULT STDMETHODCALLTYPE BookServer::FindConnectionPoint(/* [in] */ __RPC__in REFIID riid,
 	/* [out] */ __RPC__deref_out_opt IConnectionPoint **ppCP)
 {
 	auto iter = std::find_if(connectionPoints_.begin(), connectionPoints_.end(), [&riid](IConnectionPoint* pCP) {
@@ -144,19 +144,19 @@ HRESULT STDMETHODCALLTYPE PolylineObj::FindConnectionPoint(/* [in] */ __RPC__in 
 	}
 }
 
-/* [helpstring][propput] */ HRESULT STDMETHODCALLTYPE PolylineObj::put_Color(/* [in] */ COLORREF value)
+/* [helpstring][propput] */ HRESULT STDMETHODCALLTYPE BookServer::put_Color(/* [in] */ COLORREF value)
 {
 	lineInfo_.color = value;
 	return S_OK;
 }
 
-/* [helpstring][propget] */ HRESULT STDMETHODCALLTYPE PolylineObj::get_Color(/* [retval][out] */ COLORREF *retValue)
+/* [helpstring][propget] */ HRESULT STDMETHODCALLTYPE BookServer::get_Color(/* [retval][out] */ COLORREF *retValue)
 {
 	*retValue = lineInfo_.color;
 	return S_OK;
 }
 
-/* [helpstring][propput] */ HRESULT STDMETHODCALLTYPE PolylineObj::put_Points(/* [in] */ SAFEARRAY * values)
+/* [helpstring][propput] */ HRESULT STDMETHODCALLTYPE BookServer::put_Points(/* [in] */ SAFEARRAY * values)
 {
 	POINT* points;
 	auto hr = SafeArrayAccessData(values, (void**)&points);
@@ -166,7 +166,7 @@ HRESULT STDMETHODCALLTYPE PolylineObj::FindConnectionPoint(/* [in] */ __RPC__in 
 	return S_OK;
 }
 
-/* [helpstring][propget] */ HRESULT STDMETHODCALLTYPE PolylineObj::get_Points(/* [retval][out] */ SAFEARRAY * *retValues)
+/* [helpstring][propget] */ HRESULT STDMETHODCALLTYPE BookServer::get_Points(/* [retval][out] */ SAFEARRAY * *retValues)
 {
 	LPTYPEINFO pTypeInfo = NULL;
 	LPTYPELIB pTypelib = NULL;
@@ -192,22 +192,22 @@ HRESULT STDMETHODCALLTYPE PolylineObj::FindConnectionPoint(/* [in] */ __RPC__in 
 	return S_OK;
 }
 
-HRESULT STDMETHODCALLTYPE PolylineObj::GetClassID(/* [out] */ __RPC__out CLSID *pClassID)
+HRESULT STDMETHODCALLTYPE BookServer::GetClassID(/* [out] */ __RPC__out CLSID *pClassID)
 {
-	*pClassID = CLSID_PolylineObj;
+	*pClassID = CLSID_BookServer;
 	return S_OK;
 }
 
-HRESULT STDMETHODCALLTYPE PolylineObj::IsDirty(void)
+HRESULT STDMETHODCALLTYPE BookServer::IsDirty(void)
 {
 	return dirty_ ? S_OK : S_FALSE;
 }
 
-HRESULT STDMETHODCALLTYPE PolylineObj::Load(/* [in] */ __RPC__in LPCOLESTR pszFileName, /* [in] */ DWORD dwMode)
+HRESULT STDMETHODCALLTYPE BookServer::Load(/* [in] */ __RPC__in LPCOLESTR pszFileName, /* [in] */ DWORD dwMode)
 {
 	if (SUCCEEDED(StgIsStorageFile(pszFileName))) {
 		if (dwMode == 0) {
-			dwMode = STGM_READ ;
+			dwMode = STGM_READ;
 		}
 		dwMode = dwMode | STGM_SHARE_EXCLUSIVE | STGM_DIRECT;
 		ComPtr<IStorage> pStorage = nullptr;
@@ -234,7 +234,7 @@ HRESULT STDMETHODCALLTYPE PolylineObj::Load(/* [in] */ __RPC__in LPCOLESTR pszFi
 	return E_FAIL;
 }
 
-HRESULT STDMETHODCALLTYPE PolylineObj::Save(/* [unique][in] */ __RPC__in_opt LPCOLESTR pszFileName, /* [in] */ BOOL fRemember)
+HRESULT STDMETHODCALLTYPE BookServer::Save(/* [unique][in] */ __RPC__in_opt LPCOLESTR pszFileName, /* [in] */ BOOL fRemember)
 {
 	lineInfo_.pointCount = points_.size();
 	ComPtr<IStorage> pStorage;
@@ -274,14 +274,14 @@ HRESULT STDMETHODCALLTYPE PolylineObj::Save(/* [unique][in] */ __RPC__in_opt LPC
 	if (pszFileName && fRemember) {
 		filePath_ = pszFileName;
 	}
-	pStorage->SetClass(CLSID_PolylineObj);
+	pStorage->SetClass(CLSID_BookServer);
 	pStorage->Commit(STGC_OVERWRITE);
 	pStream_ = NULL;
 	pStorage_ = NULL;
 	return hr;
 }
 
-HRESULT STDMETHODCALLTYPE PolylineObj::SaveCompleted(/* [unique][in] */ __RPC__in_opt LPCOLESTR pszFileName)
+HRESULT STDMETHODCALLTYPE BookServer::SaveCompleted(/* [unique][in] */ __RPC__in_opt LPCOLESTR pszFileName)
 {
 	auto hr = StgOpenStorageEx(pszFileName, STGM_READWRITE | STGM_SHARE_EXCLUSIVE | STGM_DIRECT, STGFMT_STORAGE, 0, NULL, 0, IID_IStorage, (void**)&pStorage_);
 	if (FAILED(hr))
@@ -293,7 +293,7 @@ HRESULT STDMETHODCALLTYPE PolylineObj::SaveCompleted(/* [unique][in] */ __RPC__i
 	return S_OK;
 }
 
-HRESULT STDMETHODCALLTYPE PolylineObj::GetCurFile(/* [out] */ __RPC__deref_out_opt LPOLESTR *ppszFileName)
+HRESULT STDMETHODCALLTYPE BookServer::GetCurFile(/* [out] */ __RPC__deref_out_opt LPOLESTR *ppszFileName)
 {
 	LPWSTR path = (LPWSTR)CoTaskMemAlloc((filePath_.size() + 1) * sizeof(WCHAR));
 	StringCchCopy(path, filePath_.size() + 1, filePath_.c_str());
@@ -301,7 +301,7 @@ HRESULT STDMETHODCALLTYPE PolylineObj::GetCurFile(/* [out] */ __RPC__deref_out_o
 	return S_OK;
 }
 
-HRESULT PolylineObj::ensureTypeInfo()
+HRESULT BookServer::ensureTypeInfo()
 {
 	ITypeLib* typeLib;
 	auto hr = LoadRegTypeLib(LIBID_GraphicsLibrary, 1, 0, 0, &typeLib);
@@ -319,12 +319,12 @@ HRESULT PolylineObj::ensureTypeInfo()
 	return S_OK;
 }
 
-void PolylineObj::initConnectionMap()
+void BookServer::initConnectionMap()
 {
 	connectionPoints_.push_back(new ConnectionPointImpl<_IPolylineEvent>(DIID__IPolylineEvent, this));
 }
 
-void PolylineObj::fireOnResult(BSTR result)
+void BookServer::fireOnResult(BSTR result)
 {
 	IConnectionPoint* cp = nullptr;
 	auto hr = FindConnectionPoint(DIID__IPolylineEvent, &cp);
@@ -356,7 +356,7 @@ void PolylineObj::fireOnResult(BSTR result)
 	}
 }
 
-HRESULT STDMETHODCALLTYPE PolylineObj::GetClassInfo(/* [out] */ __RPC__deref_out_opt ITypeInfo **ppTI)
+HRESULT STDMETHODCALLTYPE BookServer::GetClassInfo(/* [out] */ __RPC__deref_out_opt ITypeInfo **ppTI)
 {
 	ensureClassInfo();
 	classInfo_->AddRef();
@@ -364,20 +364,20 @@ HRESULT STDMETHODCALLTYPE PolylineObj::GetClassInfo(/* [out] */ __RPC__deref_out
 	return S_OK;
 }
 
-HRESULT STDMETHODCALLTYPE PolylineObj::GetGUID(/* [in] */ DWORD dwGuidKind, /* [out] */ __RPC__out GUID *pGUID)
+HRESULT STDMETHODCALLTYPE BookServer::GetGUID(/* [in] */ DWORD dwGuidKind, /* [out] */ __RPC__out GUID *pGUID)
 {
 	*pGUID = DIID__IPolylineEvent;
 	return S_OK;
 }
 
-HRESULT PolylineObj::ensureClassInfo()
+HRESULT BookServer::ensureClassInfo()
 {
 	ITypeLib* typeLib;
 	auto hr = LoadRegTypeLib(LIBID_GraphicsLibrary, 1, 0, 0, &typeLib);
 	if (hr != S_OK) {
 		return hr;
 	}
-	hr = typeLib->GetTypeInfoOfGuid(__uuidof(PolylineObj), &classInfo_);
+	hr = typeLib->GetTypeInfoOfGuid(__uuidof(BookServer), &classInfo_);
 	if (hr != S_OK) {
 		return hr;
 	}

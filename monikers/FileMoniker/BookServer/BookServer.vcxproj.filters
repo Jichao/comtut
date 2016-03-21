@@ -24,31 +24,10 @@
     <ClInclude Include="targetver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="trace.h">
+    <ClInclude Include="BookServerFactory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GdiplusStarter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ConnectionPointImpl.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="IEnumConnectionPointsImpl.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="IEnumConnectionsImpl.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ComPtr.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DllModule.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="FxClassFactoryImpl.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="RegistryManager.h">
+    <ClInclude Include="BookServer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -56,23 +35,19 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="trace.cpp">
+    <ClCompile Include="BookServer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GdiplusStarter.cpp">
+    <ClCompile Include="dllmain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="IEnumConnectionPointsImpl.cpp">
+    <ClCompile Include="BookServerFactory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="IEnumConnectionsImpl.cpp">
+  </ItemGroup>
+  <ItemGroup>
+    <Midl Include="book.idl">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="DllModule.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="RegistryManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
+    </Midl>
   </ItemGroup>
 </Project>
