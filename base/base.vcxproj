@@ -74,15 +74,19 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ComBSTR.h" />
     <ClInclude Include="ComPtr.h" />
+    <ClInclude Include="ComQIPtr.h" />
     <ClInclude Include="ConnectionPointImpl.h" />
     <ClInclude Include="DllModule.h" />
     <ClInclude Include="FxClassFactoryImpl.h" />
     <ClInclude Include="GdiplusStarter.h" />
     <ClInclude Include="IEnumConnectionPointsImpl.h" />
     <ClInclude Include="IEnumConnectionsImpl.h" />
+    <ClInclude Include="OleUtils.h" />
     <ClInclude Include="RegistryManager.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="StringUtils.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="trace.h" />
   </ItemGroup>
@@ -91,11 +95,13 @@
     <ClCompile Include="GdiplusStarter.cpp" />
     <ClCompile Include="IEnumConnectionPointsImpl.cpp" />
     <ClCompile Include="IEnumConnectionsImpl.cpp" />
+    <ClCompile Include="OleUtils.cpp" />
     <ClCompile Include="RegistryManager.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="StringUtils.cpp" />
     <ClCompile Include="trace.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
