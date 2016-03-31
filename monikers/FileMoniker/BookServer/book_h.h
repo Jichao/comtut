@@ -4,7 +4,7 @@
 
 
  /* File created by MIDL compiler version 8.00.0603 */
-/* at Fri Mar 04 23:27:57 2016
+/* at Sun Mar 27 00:40:00 2016
  */
 /* Compiler settings for book.idl:
     Oicf, W1, Zp8, env=Win32 (32b run), target_arch=X86 8.00.0603 
@@ -78,6 +78,30 @@ typedef struct Book Book;
 #endif 	/* __Book_FWD_DEFINED__ */
 
 
+#ifndef __Chapter_FWD_DEFINED__
+#define __Chapter_FWD_DEFINED__
+
+#ifdef __cplusplus
+typedef class Chapter Chapter;
+#else
+typedef struct Chapter Chapter;
+#endif /* __cplusplus */
+
+#endif 	/* __Chapter_FWD_DEFINED__ */
+
+
+#ifndef __Section_FWD_DEFINED__
+#define __Section_FWD_DEFINED__
+
+#ifdef __cplusplus
+typedef class Section Section;
+#else
+typedef struct Section Section;
+#endif /* __cplusplus */
+
+#endif 	/* __Section_FWD_DEFINED__ */
+
+
 /* header files for imported files */
 #include "oaidl.h"
 #include "ocidl.h"
@@ -106,6 +130,12 @@ EXTERN_C const IID IID_ISection;
             /* [retval][out] */ BSTR *val) = 0;
         
         virtual /* [helpstring][propput] */ HRESULT STDMETHODCALLTYPE put_name( 
+            /* [in] */ BSTR val) = 0;
+        
+        virtual /* [helpstring][propget] */ HRESULT STDMETHODCALLTYPE get_content( 
+            /* [retval][out] */ BSTR *val) = 0;
+        
+        virtual /* [helpstring][propput] */ HRESULT STDMETHODCALLTYPE put_content( 
             /* [in] */ BSTR val) = 0;
         
     };
@@ -174,6 +204,14 @@ EXTERN_C const IID IID_ISection;
             ISection * This,
             /* [in] */ BSTR val);
         
+        /* [helpstring][propget] */ HRESULT ( STDMETHODCALLTYPE *get_content )( 
+            ISection * This,
+            /* [retval][out] */ BSTR *val);
+        
+        /* [helpstring][propput] */ HRESULT ( STDMETHODCALLTYPE *put_content )( 
+            ISection * This,
+            /* [in] */ BSTR val);
+        
         END_INTERFACE
     } ISectionVtbl;
 
@@ -216,6 +254,12 @@ EXTERN_C const IID IID_ISection;
 #define ISection_put_name(This,val)	\
     ( (This)->lpVtbl -> put_name(This,val) ) 
 
+#define ISection_get_content(This,val)	\
+    ( (This)->lpVtbl -> get_content(This,val) ) 
+
+#define ISection_put_content(This,val)	\
+    ( (This)->lpVtbl -> put_content(This,val) ) 
+
 #endif /* COBJMACROS */
 
 
@@ -248,12 +292,12 @@ EXTERN_C const IID IID_IChapter;
         virtual /* [helpstring][propput] */ HRESULT STDMETHODCALLTYPE put_name( 
             /* [in] */ BSTR val) = 0;
         
-        virtual HRESULT STDMETHODCALLTYPE AddSection( 
-            /* [in] */ ISection *chapter) = 0;
+        virtual HRESULT STDMETHODCALLTYPE CreateSection( 
+            /* [out] */ ISection **section) = 0;
         
         virtual HRESULT STDMETHODCALLTYPE GetSection( 
             /* [in] */ UINT index,
-            /* [out] */ ISection **chapter) = 0;
+            /* [out] */ ISection **section) = 0;
         
     };
     
@@ -321,14 +365,14 @@ EXTERN_C const IID IID_IChapter;
             IChapter * This,
             /* [in] */ BSTR val);
         
-        HRESULT ( STDMETHODCALLTYPE *AddSection )( 
+        HRESULT ( STDMETHODCALLTYPE *CreateSection )( 
             IChapter * This,
-            /* [in] */ ISection *chapter);
+            /* [out] */ ISection **section);
         
         HRESULT ( STDMETHODCALLTYPE *GetSection )( 
             IChapter * This,
             /* [in] */ UINT index,
-            /* [out] */ ISection **chapter);
+            /* [out] */ ISection **section);
         
         END_INTERFACE
     } IChapterVtbl;
@@ -372,11 +416,11 @@ EXTERN_C const IID IID_IChapter;
 #define IChapter_put_name(This,val)	\
     ( (This)->lpVtbl -> put_name(This,val) ) 
 
-#define IChapter_AddSection(This,chapter)	\
-    ( (This)->lpVtbl -> AddSection(This,chapter) ) 
+#define IChapter_CreateSection(This,section)	\
+    ( (This)->lpVtbl -> CreateSection(This,section) ) 
 
-#define IChapter_GetSection(This,index,chapter)	\
-    ( (This)->lpVtbl -> GetSection(This,index,chapter) ) 
+#define IChapter_GetSection(This,index,section)	\
+    ( (This)->lpVtbl -> GetSection(This,index,section) ) 
 
 #endif /* COBJMACROS */
 
@@ -404,6 +448,9 @@ EXTERN_C const IID IID_IBook;
     IBook : public IDispatch
     {
     public:
+        virtual /* [helpstring][propput] */ HRESULT STDMETHODCALLTYPE put_pageCount( 
+            /* [in] */ UINT32 value) = 0;
+        
         virtual /* [helpstring][propget] */ HRESULT STDMETHODCALLTYPE get_pageCount( 
             /* [retval][out] */ UINT32 *retValue) = 0;
         
@@ -413,8 +460,8 @@ EXTERN_C const IID IID_IBook;
         virtual /* [helpstring][propput] */ HRESULT STDMETHODCALLTYPE put_name( 
             /* [in] */ BSTR val) = 0;
         
-        virtual HRESULT STDMETHODCALLTYPE AddChapter( 
-            /* [in] */ IChapter *chapter) = 0;
+        virtual HRESULT STDMETHODCALLTYPE CreateChapter( 
+            /* [out] */ IChapter **chapter) = 0;
         
         virtual HRESULT STDMETHODCALLTYPE GetChapter( 
             /* [in] */ UINT index,
@@ -478,6 +525,10 @@ EXTERN_C const IID IID_IBook;
             /* [annotation][out] */ 
             _Out_opt_  UINT *puArgErr);
         
+        /* [helpstring][propput] */ HRESULT ( STDMETHODCALLTYPE *put_pageCount )( 
+            IBook * This,
+            /* [in] */ UINT32 value);
+        
         /* [helpstring][propget] */ HRESULT ( STDMETHODCALLTYPE *get_pageCount )( 
             IBook * This,
             /* [retval][out] */ UINT32 *retValue);
@@ -490,9 +541,9 @@ EXTERN_C const IID IID_IBook;
             IBook * This,
             /* [in] */ BSTR val);
         
-        HRESULT ( STDMETHODCALLTYPE *AddChapter )( 
+        HRESULT ( STDMETHODCALLTYPE *CreateChapter )( 
             IBook * This,
-            /* [in] */ IChapter *chapter);
+            /* [out] */ IChapter **chapter);
         
         HRESULT ( STDMETHODCALLTYPE *GetChapter )( 
             IBook * This,
@@ -535,6 +586,9 @@ EXTERN_C const IID IID_IBook;
     ( (This)->lpVtbl -> Invoke(This,dispIdMember,riid,lcid,wFlags,pDispParams,pVarResult,pExcepInfo,puArgErr) ) 
 
 
+#define IBook_put_pageCount(This,value)	\
+    ( (This)->lpVtbl -> put_pageCount(This,value) ) 
+
 #define IBook_get_pageCount(This,retValue)	\
     ( (This)->lpVtbl -> get_pageCount(This,retValue) ) 
 
@@ -544,8 +598,8 @@ EXTERN_C const IID IID_IBook;
 #define IBook_put_name(This,val)	\
     ( (This)->lpVtbl -> put_name(This,val) ) 
 
-#define IBook_AddChapter(This,chapter)	\
-    ( (This)->lpVtbl -> AddChapter(This,chapter) ) 
+#define IBook_CreateChapter(This,chapter)	\
+    ( (This)->lpVtbl -> CreateChapter(This,chapter) ) 
 
 #define IBook_GetChapter(This,index,chapter)	\
     ( (This)->lpVtbl -> GetChapter(This,index,chapter) ) 
@@ -575,8 +629,24 @@ EXTERN_C const CLSID CLSID_Book;
 
 #ifdef __cplusplus
 
-class DECLSPEC_UUID("F837DC51-3E9F-4DC2-B342-647E70C07F33")
+class DECLSPEC_UUID("d03979bc-59fa-48dc-b515-ac2565dabc59")
 Book;
+#endif
+
+EXTERN_C const CLSID CLSID_Chapter;
+
+#ifdef __cplusplus
+
+class DECLSPEC_UUID("c03979bc-59fa-48dc-b515-ac2565dabc59")
+Chapter;
+#endif
+
+EXTERN_C const CLSID CLSID_Section;
+
+#ifdef __cplusplus
+
+class DECLSPEC_UUID("05765590-f55e-4aa5-b0f3-3cc82275f840")
+Section;
 #endif
 #endif /* __BookLibrary_LIBRARY_DEFINED__ */
 

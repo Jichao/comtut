@@ -4,6 +4,7 @@
 #include "stdafx.h"
 #include "GuiClient.h"
 #include "PolylineTest.h"
+#include "BookServerTest.h"
 #define MAX_LOADSTRING 100
 
 // Global Variables:
@@ -11,6 +12,7 @@ HINSTANCE hInst;								// current instance
 TCHAR szTitle[MAX_LOADSTRING];					// The title bar text
 TCHAR szWindowClass[MAX_LOADSTRING];			// the main window class name
 PolylineTest tester;
+BookServerTest booktest;
 
 // Forward declarations of functions included in this code module:
 ATOM				MyRegisterClass(HINSTANCE hInstance);
@@ -43,11 +45,11 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	}
 
 	hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_GUICLIENT));
-	tester.testCompoundFile();
-	tester.writePersistFile();
-	tester.readPersistFile();
-	tester.writeFileMoniker();
-	tester.readFileMoniker();
+	booktest.createBook();
+	booktest.readBook();
+	booktest.createFileMoniker();
+	booktest.readFileMoniker();
+	booktest.readItemMoniker();
 
 	// Main message loop:
 	while (GetMessage(&msg, NULL, 0, 0))
@@ -153,6 +155,17 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		default:
 			return DefWindowProc(hWnd, message, wParam, lParam);
 		}
+		break;
+	case WM_LBUTTONDOWN:
+		//tester.testCompoundFile();
+		//tester.writePersistFile();
+		//tester.readPersistFile();
+		//tester.writeFileMoniker();
+		//tester.readFileMoniker();
+
+		break;
+	case WM_RBUTTONDOWN:
+		booktest.readItemMoniker();
 		break;
 	case WM_PAINT:
 		hdc = BeginPaint(hWnd, &ps);

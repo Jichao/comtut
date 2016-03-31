@@ -1,7 +1,9 @@
 // dllmain.cpp : Defines the entry point for the DLL application.
 #include "stdafx.h"
 #include "book_h.h"
-#include "BookServerFactory.h"
+#include "BookFactory.h"
+#include "ChapterFactory.h"
+#include "SectionFactory.h"
 
 HMODULE g_hMod = NULL;
 
@@ -78,42 +80,67 @@ BOOL APIENTRY DllMain(HMODULE hModule,
 }
 
 STDAPI  DllGetClassObject(_In_ REFCLSID rclsid, _In_ REFIID riid, _Outptr_ LPVOID FAR* ppv) {
-	if (rclsid != CLSID_PolylineObj) {
-		return E_NOINTERFACE;
+	if (rclsid != CLSID_Book && rclsid != CLSID_Section && rclsid != CLSID_Chapter) {
+		return CLASS_E_CLASSNOTAVAILABLE;
 	}
-	PolylineObjFactory* factory = new PolylineObjFactory();
-	auto hr = factory->QueryInterface(riid, ppv);
-	if (S_OK != hr) {
-		delete factory;
-		*ppv = NULL;
+	if (rclsid == CLSID_Book) {
+		BookFactory* factory = new BookFactory();
+		auto hr = factory->QueryInterface(riid, ppv);
+		if (S_OK != hr) {
+			delete factory;
+			*ppv = NULL;
+			return hr;
+		}
+		factory->AddRef();
+		return hr;
+	} else if (rclsid == CLSID_Chapter) {
+		ChapterFactory* factory = new ChapterFactory();
+		auto hr = factory->QueryInterface(riid, ppv);
+		if (S_OK != hr) {
+			delete factory;
+			*ppv = NULL;
+			return hr;
+		}
+		factory->AddRef();
+		return hr;
+	} else if (rclsid == CLSID_Section) {
+		SectionFactory* factory = new SectionFactory();
+		auto hr = factory->QueryInterface(riid, ppv);
+		if (S_OK != hr) {
+			delete factory;
+			*ppv = NULL;
+			return hr;
+		}
+		factory->AddRef();
 		return hr;
 	}
-	factory->AddRef();
-	return hr;
+	return E_FAIL;
 }
 
-STDAPI  DllCanUnloadNow(void) {
-	return S_OK;
-}
-STDAPI DllRegisterServer(void) {
-	WCHAR path[MAX_PATH];
-	GetModuleFileName(g_hMod, path, MAX_PATH);
-	RegisterServer(CLSID_PolylineObj, L"Graphics.Polyline", 1);
-	ITypeLib* typeLib = nullptr;
-	auto hr = LoadTypeLib(path, &typeLib);
-	if (hr != S_OK) {
+	STDAPI  DllCanUnloadNow(void) {
+		return S_OK;
+	}
+	STDAPI DllRegisterServer(void) {
+		WCHAR path[MAX_PATH];
+		GetModuleFileName(g_hMod, path, MAX_PATH);
+		RegisterServer(CLSID_Book, L"BookLib.Book", 1);
+		RegisterServer(CLSID_Chapter, L"BookLib.Chapter", 1);
+		RegisterServer(CLSID_Section, L"BookLib.Section", 1);
+		ITypeLib* typeLib = nullptr;
+		auto hr = LoadTypeLib(path, &typeLib);
+		if (hr != S_OK) {
+			return hr;
+		}
+		hr = RegisterTypeLib(typeLib, path, NULL);
 		return hr;
 	}
-	hr = RegisterTypeLib(typeLib, path, NULL);
-	return hr;
-}
 
-STDAPI DllUnregisterServer(void) {
-	WCHAR clsidStr[200];
-	StringFromGUID2(CLSID_PolylineObj, clsidStr, 200);
-	WCHAR keyname[200];
-	StringCchPrintf(keyname, 200, L"CLSID\\%s", clsidStr);
-	SHDeleteKey(HKEY_CLASSES_ROOT, keyname);
-	UnRegisterTypeLib(LIBID_GraphicsLibrary, 1, 0, GetSystemDefaultLCID(), SYS_WIN32);
-	return S_OK;
-}
+	STDAPI DllUnregisterServer(void) {
+		WCHAR clsidStr[200];
+		StringFromGUID2(CLSID_Book, clsidStr, 200);
+		WCHAR keyname[200];
+		StringCchPrintf(keyname, 200, L"CLSID\\%s", clsidStr);
+		SHDeleteKey(HKEY_CLASSES_ROOT, keyname);
+		UnRegisterTypeLib(LIBID_BookLibrary, 1, 0, GetSystemDefaultLCID(), SYS_WIN32);
+		return S_OK;
+	}

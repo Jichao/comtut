@@ -33,6 +33,9 @@
     <ClInclude Include="PolylineTest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="BookServerTest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -42,6 +45,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="PolylineTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BookServerTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

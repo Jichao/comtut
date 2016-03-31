@@ -80,6 +80,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BookServerTest.h" />
     <ClInclude Include="GuiClient.h" />
     <ClInclude Include="PolylineTest.h" />
     <ClInclude Include="Resource.h" />
@@ -87,6 +88,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BookServerTest.cpp" />
     <ClCompile Include="GuiClient.cpp" />
     <ClCompile Include="PolylineTest.cpp" />
     <ClCompile Include="stdafx.cpp">

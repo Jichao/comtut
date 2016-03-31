@@ -15,6 +15,11 @@ interface ISection : IDispatch
 	HRESULT name([out, retval]BSTR* val);
 	[propput, helpstring("set section name")]
 	HRESULT name([in]BSTR val);
+
+	[propget, helpstring("get section content")]
+	HRESULT content([out, retval]BSTR* val);
+	[propput, helpstring("set section content")]
+	HRESULT content([in]BSTR val);
 };
 
 [
@@ -31,8 +36,8 @@ interface IChapter : IDispatch
 	[propput, helpstring("set chapter name")]
 	HRESULT name([in]BSTR val);
 
-	HRESULT AddSection([in]ISection* chapter);
-	HRESULT GetSection([in]UINT index, [out]ISection** chapter);
+	HRESULT CreateSection([out]ISection** section);
+	HRESULT GetSection([in]UINT index, [out]ISection** section);
 };
 
 [
@@ -44,6 +49,8 @@ interface IChapter : IDispatch
 ]
 interface IBook : IDispatch 
 {
+	[propput, helpstring("set book page count")]
+	HRESULT pageCount([in]UINT32 value);
 	[propget, helpstring("get book page count")]
 	HRESULT pageCount([out, retval]UINT32* retValue);
 	[propget, helpstring("get book name")]
@@ -51,7 +58,7 @@ interface IBook : IDispatch
 	[propput, helpstring("set book name")]
 	HRESULT name([in]BSTR val);
 
-	HRESULT AddChapter([in]IChapter* chapter);
+	HRESULT CreateChapter([out]IChapter** chapter);
 	HRESULT GetChapter([in]UINT index, [out]IChapter** chapter);
 };
 
@@ -63,9 +70,8 @@ interface IBook : IDispatch
 library BookLibrary {
 	importlib("stdole32.tlb");
 	importlib("stdole2.tlb");
-
 	[
-		uuid(F837DC51-3E9F-4DC2-B342-647E70C07F33),
+		uuid(d03979bc-59fa-48dc-b515-ac2565dabc59),
 		helpstring("book object"),
 	]
 	coclass Book {
