@@ -153,6 +153,14 @@ int BookServerTest::readItemMoniker()
 	OleLoadFromStream(pStream, IID_IMoniker, (void**)&bkMoniker);
 
 	{
+		ComPtr<IBook> book;
+		ComPtr<IBook> book2;
+		auto hr = bkMoniker->BindToObject(pbc, NULL, IID_IBook, (void**)&book);
+		hr = bkMoniker->BindToObject(pbc, NULL, IID_IBook, (void**)&book2);
+		assert(book2);
+	}
+
+	{
 		ComPtr<IMoniker> chMoniker;
 		CreateItemMoniker(L"!", L"chapter0", &chMoniker);
 		ComPtr<IChapter> chObj;

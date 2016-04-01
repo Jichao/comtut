@@ -126,7 +126,7 @@ HRESULT STDMETHODCALLTYPE Book::Load(/* [in] */ __RPC__in LPCOLESTR pszFileName,
 		if (dwMode == 0) {
 			dwMode = STGM_READ;
 		}
-		dwMode = dwMode | STGM_SHARE_EXCLUSIVE | STGM_DIRECT;
+		dwMode = dwMode | STGM_SHARE_DENY_NONE | STGM_DIRECT;
 		ComPtr<IStorage> pStorage = nullptr;
 		auto hr = StgOpenStorageEx(pszFileName, dwMode, STGFMT_STORAGE, 0, NULL, 0, IID_IStorage, (void**)&pStorage);
 		if (FAILED(hr))

@@ -116,7 +116,7 @@ HRESULT STDMETHODCALLTYPE Chapter::Load(/* [unique][in] */ __RPC__in_opt IStorag
 		return E_POINTER;
 
 	ComPtr<IStream> pStream = nullptr;
-	auto dwMode = STGM_READ | STGM_SHARE_DENY_NONE | STGM_DIRECT;
+	auto dwMode = STGM_READ | STGM_SHARE_EXCLUSIVE | STGM_DIRECT;
 	auto hr = pStg->OpenStream(kStreamName, NULL, dwMode, 0, &pStream);
 	if (FAILED(hr))
 		return hr;
