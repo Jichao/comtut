@@ -156,8 +156,9 @@ int BookServerTest::readItemMoniker()
 		ComPtr<IBook> book;
 		ComPtr<IBook> book2;
 		auto hr = bkMoniker->BindToObject(pbc, NULL, IID_IBook, (void**)&book);
-		hr = bkMoniker->BindToObject(pbc, NULL, IID_IBook, (void**)&book2);
-		assert(book2);
+		assert(book);
+		//hr = bkMoniker->BindToObject(pbc, NULL, IID_IBook, (void**)&book2);
+		//assert(book2);
 	}
 
 	{
@@ -207,4 +208,106 @@ int BookServerTest::readItemMoniker()
 	//assert(chName == L"概述");
 	//CreateGenericComposite(bkMoniker, chMoniker, &composeMoniker);
 	return 0;
+}
+
+void BookServerTest::testWord()
+{
+	//static const WCHAR kFilePath[] = LR"(F:\bk\physics\quantum mechanics\exam\2009\09北京大学量子力学（记忆版）.doc)";
+	DWORD rtfFormat = RegisterClipboardFormat(L"Rich Text Format");
+	static const WCHAR kFilePath[] = LR"(e:\test.docx)";
+	ComPtr<IMoniker> fileMoniker;
+	auto hr = CreateFileMoniker(kFilePath, &fileMoniker);
+	if (FAILED(hr))
+		return;
+	ComPtr<IBindCtx> pbc;
+	CreateBindCtx(0, &pbc);
+	ComPtr<IDataObject> dataObject;
+	hr = fileMoniker->BindToObject(pbc, NULL, IID_IDataObject, (void**)&dataObject);
+	if (FAILED(hr))
+		return;
+
+	ComPtr<IDataObject> dataObject2;
+	hr = fileMoniker->BindToObject(pbc, NULL, IID_IDataObject, (void**)&dataObject2);
+	if (FAILED(hr))
+		return;
+
+	{
+		ComPtr<IEnumFORMATETC> enumFormat;
+		auto hr = dataObject->EnumFormatEtc(DATADIR_GET, &enumFormat);
+		if (FAILED(hr))
+			return;
+		FORMATETC format;
+		std::vector<FORMATETC> getFormats;
+		while ((hr = enumFormat->Next(1, &format, NULL)) == S_OK) {
+			getFormats.push_back(format);
+		}
+		assert(getFormats.size() > 1);
+	}
+
+	{
+		ComPtr<IEnumFORMATETC> enumFormat;
+		auto hr = dataObject->EnumFormatEtc(DATADIR_SET, &enumFormat);
+		if (FAILED(hr))
+			return;
+		FORMATETC format;
+		std::vector<FORMATETC> setFormats;
+		while ((hr = enumFormat->Next(1, &format, NULL)) == S_OK) {
+			setFormats.push_back(format);
+		}
+		assert(setFormats.size() > 1);
+	}
+
+	{
+		FORMATETC etc = { 0 };
+		etc.cfFormat = CF_UNICODETEXT;
+		etc.dwAspect = DVASPECT_CONTENT;
+		etc.lindex = -1;
+		etc.tymed = TYMED_HGLOBAL;
+		STGMEDIUM stg = { 0 };
+		hr = dataObject->GetData(&etc, &stg);
+		if (FAILED(hr))
+			return;
+		auto ptr = GlobalLock(stg.hGlobal);
+		assert(ptr);
+	}
+
+
+	{
+		FORMATETC etc = { 0 };
+		etc.cfFormat = CF_TEXT;
+		etc.dwAspect = DVASPECT_CONTENT;
+		etc.lindex = -1;
+		etc.tymed = TYMED_HGLOBAL;
+		STGMEDIUM stg = { 0 };
+		hr = dataObject->GetData(&etc, &stg);
+		if (FAILED(hr))
+			return;
+		//return gbk encoding.
+		auto ptr = GlobalLock(stg.hGlobal);
+		assert(ptr);
+	}
+
+	{
+		FORMATETC etc = { 0 };
+		etc.cfFormat = CF_TEXT;
+		etc.dwAspect = DVASPECT_CONTENT;
+		etc.lindex = -1;
+		etc.tymed = TYMED_HGLOBAL;
+		STGMEDIUM stg = { 0 };
+		const static CHAR kContent[] = "how to zhangbi\r\n";
+		auto hg = GlobalAlloc(GPTR, sizeof(kContent) + 1);
+		auto ptr = (CHAR*)GlobalLock(hg);
+		StringCchCopyA(ptr, sizeof(kContent), kContent);
+		stg.tymed = TYMED_HGLOBAL;
+		stg.hGlobal = hg;
+		hr = dataObject->SetData(&etc, &stg, FALSE);
+		if (FAILED(hr))
+			return;
+		assert(stg.lpszFileName);
+		ReleaseStgMedium(&stg);
+		ComQIPtr<IPersistFile> file = dataObject;
+		hr = file->Save(NULL, TRUE);
+		if (FAILED(hr))
+			return;
+	}
 }

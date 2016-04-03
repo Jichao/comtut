@@ -226,8 +226,8 @@ HRESULT STDMETHODCALLTYPE PolylineObj::Load(/* [in] */ __RPC__in LPCOLESTR pszFi
 		hr = pStream->Read(points_.data(), sizeof(POINT) * lineInfo_.pointCount, &cb);
 		if (FAILED(hr) || cb != sizeof(POINT) * lineInfo_.pointCount)
 			return E_FAIL;
-		pStorage_ = pStorage;
-		pStream_ = pStream;
+		//pStorage_ = pStorage;
+		//pStream_ = pStream;
 		filePath_ = pszFileName;
 		return S_OK;
 	}

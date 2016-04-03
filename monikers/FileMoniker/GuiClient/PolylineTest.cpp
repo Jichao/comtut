@@ -128,7 +128,13 @@ int PolylineTest::readFileMoniker()
 	if (FAILED(hr)) {
 		return -1;
 	}
+	ComPtr<IPolyline> polyline2;
+	hr = moniker->BindToObject(pbc, NULL, IID_IPolyline, (void**)&polyline2);
+	if (FAILED(hr)) {
+		return -1;
+	}
 	outputPoints(polyline);
+	outputPoints(polyline2);
 	polyline->put_Color(RGB(0xff, 0x00, 0x00));
 	COLORREF value;
 	polyline->get_Color(&value);

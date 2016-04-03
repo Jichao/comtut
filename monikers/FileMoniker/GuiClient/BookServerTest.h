@@ -12,6 +12,7 @@ public:
 	int readFileMoniker();
 	//int createItemMoniker();
 	int readItemMoniker();
+	void testWord();
 
 private:
 };
