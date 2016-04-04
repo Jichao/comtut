@@ -16,3 +16,5 @@
 #include <strsafe.h>
 #include <string>
 #include <Shlwapi.h>
+#include <assert.h>
+#include <vector>

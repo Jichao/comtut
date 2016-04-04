@@ -74,11 +74,14 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ClientWnd.h" />
     <ClInclude Include="ComBSTR.h" />
     <ClInclude Include="ComPtr.h" />
     <ClInclude Include="ComQIPtr.h" />
     <ClInclude Include="ConnectionPointImpl.h" />
     <ClInclude Include="DllModule.h" />
+    <ClInclude Include="DocWnd.h" />
+    <ClInclude Include="FrameWnd.h" />
     <ClInclude Include="FxClassFactoryImpl.h" />
     <ClInclude Include="GdiplusStarter.h" />
     <ClInclude Include="IEnumConnectionPointsImpl.h" />
@@ -89,9 +92,13 @@
     <ClInclude Include="StringUtils.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="trace.h" />
+    <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ClientWnd.cpp" />
     <ClCompile Include="DllModule.cpp" />
+    <ClCompile Include="DocWnd.cpp" />
+    <ClCompile Include="FrameWnd.cpp" />
     <ClCompile Include="GdiplusStarter.cpp" />
     <ClCompile Include="IEnumConnectionPointsImpl.cpp" />
     <ClCompile Include="IEnumConnectionsImpl.cpp" />
@@ -103,6 +110,7 @@
     </ClCompile>
     <ClCompile Include="StringUtils.cpp" />
     <ClCompile Include="trace.cpp" />
+    <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
