@@ -26,7 +26,8 @@ bool FrameWnd::registerAllClasses(INT iconId, INT menuId)
 	wcex.hInstance = hInst_;
 	wcex.hIcon = LoadIcon(hInst_, MAKEINTRESOURCE(iconId));
 	wcex.hCursor = LoadCursor(NULL, IDC_ARROW);
-	wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
+	//wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
+	wcex.hbrBackground = NULL;
 	wcex.lpszMenuName = MAKEINTRESOURCE(menuId);
 	wcex.lpszClassName = kFrameWndClassName;
 	if (!RegisterClassEx(&wcex))

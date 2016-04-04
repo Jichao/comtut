@@ -1,0 +1,96 @@
+import "oaidl.idl";
+import "ocidl.idl";
+
+
+[
+	uuid(57F0CC0A-8A4F-413E-AEEC-DA9E115BDA77),
+	dual,
+	object,
+	nonextensible,
+	pointer_default(unique)
+]
+interface ISection : IDispatch
+{
+	[propget, helpstring("get section name")]
+	HRESULT name([out, retval]BSTR* val);
+	[propput, helpstring("set section name")]
+	HRESULT name([in]BSTR val);
+
+	[propget, helpstring("get section content")]
+	HRESULT content([out, retval]BSTR* val);
+	[propput, helpstring("set section content")]
+	HRESULT content([in]BSTR val);
+};
+
+[
+	uuid(A6829C1B-B73A-4400-9048-16D3299129B4),
+	dual,
+	object,
+	nonextensible,
+	pointer_default(unique)
+]
+interface IChapter : IDispatch
+{
+	[propget, helpstring("get chapter name")]
+	HRESULT name([out, retval]BSTR* val);
+	[propput, helpstring("set chapter name")]
+	HRESULT name([in]BSTR val);
+
+	HRESULT CreateSection([out]ISection** section);
+	HRESULT GetSection([in]UINT index, [out]ISection** section);
+};
+
+[
+	uuid(A1B6605F-FD40-4B6C-8625-9E86EE227C8D),
+	dual,
+	object,
+	nonextensible,
+	pointer_default(unique)
+]
+interface IBook : IDispatch 
+{
+	[propput, helpstring("set book page count")]
+	HRESULT pageCount([in]UINT32 value);
+	[propget, helpstring("get book page count")]
+	HRESULT pageCount([out, retval]UINT32* retValue);
+	[propget, helpstring("get book name")]
+	HRESULT name([out, retval]BSTR* val);
+	[propput, helpstring("set book name")]
+	HRESULT name([in]BSTR val);
+
+	HRESULT CreateChapter([out]IChapter** chapter);
+	HRESULT GetChapter([in]UINT index, [out]IChapter** chapter);
+};
+
+[
+	uuid(A09F7882-D0A5-4A33-9433-C0563E8B5C36),
+	version(1.0),
+	helpstring("book library"),
+]
+library BookLibrary {
+	importlib("stdole32.tlb");
+	importlib("stdole2.tlb");
+	[
+		uuid(d03979bc-59fa-48dc-b515-ac2565dabc59),
+		helpstring("book object"),
+	]
+	coclass Book {
+		[default] interface IBook;
+	};
+
+	[
+		uuid(c03979bc-59fa-48dc-b515-ac2565dabc59),
+		helpstring("chapter object"),
+	]
+	coclass Chapter {
+		[default] interface IChapter;
+	};
+
+	[
+		uuid(05765590-f55e-4aa5-b0f3-3cc82275f840),
+		helpstring("section object"),
+	]
+	coclass Section {
+		[default] interface ISection;
+	};
+}
